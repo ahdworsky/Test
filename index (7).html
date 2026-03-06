@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<!-- Performance hints -->
+<link rel="preconnect" href="https://fonts.googleapis.com&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<meta charset="utf-8"/>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="upgrade-insecure-requests" http-equiv="Content-Security-Policy"/>
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>SkySure Inspections</title>
+<!-- Fav Icon -->
+<link href="favicon.ico" rel="shortcut icon"/>
+<!-- Bootstrap -->
+<!-- font-awesome.min -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="css/bootstrap.min.css" rel="stylesheet"/>
+<link href="css/font-awesome.css" rel="stylesheet"/>
+<link href="css/owl.carousel.css" rel="stylesheet"/>
+<link href="css/style.css" rel="stylesheet"/>
+<link href="css/settings.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Oswald:200,300,400,500,600,700&display=swap" rel="stylesheet"/>
+<style>
+.report-card { cursor: pointer; }
+</style>
+<style>
+/* Appointment form must appear above all overlays */
+#appointment-form{ z-index: 2147483647 !important; }
+#modal-backdrop{  z-index: 2147483646 !important; }
+[hidden]{ display: none !important; } /* ensure hidden attribute hides elements */
+</style>
+<style>
+/* Modal centering + backdrop coverage */
+#appointment-form{
+  position: fixed !important;
+  top: 50% !important; left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  max-width: 90% !important; max-height: 90% !important;
+  overflow-y: auto !important;
+  background: #fff !important;
+  border-radius: 10px !important;
+  padding: 20px !important;
+  z-index: 2147483647 !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,.35) !important;
+}
+#modal-backdrop{
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0,0,0,0.6) !important;
+  z-index: 2147483646 !important;
+}
+/* Graceful focus outline for accessibility */
+#appointment-form :focus{ outline: 2px solid #ea5a1f; outline-offset: 2px; }
+</style>
+<script>
+(function(){
+  try {
+    var isHTTP = location.protocol === 'http:';
+    var isLocal = /^(localhost|127\.0\.0\.1)$/i.test(location.hostname);
+    if (isHTTP && !isLocal) {
+      var target = 'https://' + location.host + location.pathname + location.search + location.hash;
+      location.replace(target);
+    }
+  } catch (e) {}
+})();
+</script>
+<style>
+/* Click/Tap hint on service cards */
+.service-image { position: relative; overflow: hidden; }
+.serviceList li:hover .hoverlink { display: block; }
+.serviceList li.report-card .hoverhint{
+  position: absolute;
+  left: 10px; bottom: 10px;
+  background: rgba(14,31,47,0.85);
+  color: #fff;
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  display: none;
+  pointer-events: none;
+}
+.serviceList li.report-card:hover .hoverhint,
+.serviceList li.report-card:focus-within .hoverhint { display: inline-block; }
+@media (pointer: coarse) { .hoverhint .click { display:none; } .hoverhint .tap { display:inline; } }
+@media (pointer: fine)   { .hoverhint .click { display:inline; } .hoverhint .tap { display:none; } }
+</style>
+<style>
+/* Hide the chain-link icon overlay but keep the hint */
+.serviceList li .service-image .hoverlink,
+.serviceList li:hover .service-image .hoverlink,
+.serviceList li.report-card .service-image .hoverlink,
+.serviceList li.report-card:hover .service-image .hoverlink {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+.serviceList .hoverhint{ display:inline-block !important; }
+</style>
+<!-- Preload banner (mobile/tablet) to improve LCP -->
+<link rel="preload" as="image"
+      imagesrcset="images/banner2-480.webp 480w, images/banner2-768.webp 768w"
+      imagesizes="(max-width: 520px) 100vw, (max-width: 900px) 100vw">
+<link rel="preload" as="image"
+      imagesrcset="images/banner2-480.jpg 480w, images/banner2-768.jpg 768w"
+      imagesizes="(max-width: 520px) 100vw, (max-width: 900px) 100vw">
+<style>
+/* Serve smaller banner images on mobile/tablet without touching JS */
+@media (max-width: 520px){
+  .banenr-section{
+    background-image: image-set(
+      url("images/banner2-480.webp") type("image/webp"),
+      url("images/banner2-480.jpg") type("image/jpeg")
+    );
+    background-size: cover;
+    background-position: center;
+  }
+}
+@media (min-width: 521px) and (max-width: 900px){
+  .banenr-section{
+    background-image: image-set(
+      url("images/banner2-768.webp") type("image/webp"),
+      url("images/banner2-768.jpg") type("image/jpeg")
+    );
+    background-size: cover;
+    background-position: center;
+  }
+}
+</style>
+<style>
+/* Simple, compatible banner background for phones/tablets */
+@media (max-width: 520px){
+  .banenr-section{
+    background-image: url("images/banner2-480.jpg") !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+  }
+}
+@media (min-width: 521px) and (max-width: 900px){
+  .banenr-section{
+    background-image: url("images/banner2-768.jpg") !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+  }
+}
+</style>
+<style>
+/* Modal for Insurance/Realtor cards only (full brightness, proper layering) */
+#docOverlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .18s ease;z-index:2147483647;}
+#docOverlay.open{opacity:1;visibility:visible;}
+#docOverlay .backdrop{position:absolute;inset:0;z-index:1;}
+#docOverlay .doc-img{position:relative;z-index:2;display:block;max-width:96vw;max-height:90vh;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:1!important;filter:none!important;mix-blend-mode:normal!important;}
+#docOverlay .close{position:absolute;top:10px;right:12px;z-index:2;font-size:30px;line-height:30px;border:0;background:transparent;color:#fff;cursor:pointer;padding:6px 10px;}
+body.noscroll{overflow:hidden!important;}
+</style>
+<style>
+/* Desktop: compactly match the heights of the TOP TWO service cards only */
+@media (min-width: 992px){
+  /* Layout the card body so spacing is tight and consistent */
+  .serviceList:first-of-type .report-card .service-details{
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Title: reserve exactly two lines so tier titles stay aligned */
+  .serviceList:first-of-type .report-card .service-details h3,
+  .serviceList:first-of-type .report-card .service-details h4{
+    line-height: 1.25;
+    min-height: calc(1.25em * 2);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Description: clamp to two lines so the price doesn't get pushed way down */
+  .serviceList:first-of-type .report-card .service-details p:first-of-type{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.5;
+    min-height: calc(1.5em * 2);
+    margin-bottom: 0.6rem;
+  }
+}
+</style>
+</head>
+<body>
+<!-- Overlay for the two doc cards -->
+<div id="docOverlay" aria-hidden="true" role="dialog" aria-label="Document viewer">
+  <div class="backdrop"></div>
+  <button class="close" type="button" aria-label="Close">×</button>
+  <img class="doc-img" alt="Document">
+</div>
+<!-- Header start -->
+<div class="header sticky">
+<div class="container">
+<!-- Row Rtart -->
+<div class="row">
+<div class="col-md-3 col-sm-3">
+<div class="logo"><img alt="SkySure Inspections logo" src="images/logo.png"/></div>
+<div class="navbar-header">
+<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+</div>
+</div>
+<div class="col-md-9 col-sm-9">
+<!--navegation-->
+<div class="navigationwrape">
+<div class="navbar navbar-default" role="navigation">
+<div class="navbar-collapse collapse">
+<ul class="nav navbar-nav">
+
+<li> <a href="#home"> Home</a></li>
+<li> <a href="#services"> Services</a></li>
+<li> <a href="roof-condition-report.html"> Roof Condition Report</a></li>
+<li> <a href="#about"> About Us</a></li>
+<li> <a href="blog"> Blog</a></li>
+<li> <a href="#faq"> FAQ</a></li>  
+<li><a class="js-open-appt" href="#"> Schedule a Roof Report</a></li>
+</ul>
+</div>
+<div class="clearfix"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Row End -->
+</div>
+</div>
+<!-- Header end -->
+<section class="banenr-section" id="home">
+<div class="banner-content">
+<div class="caption lfl large-title tp-resizeme slidertext1">
+  <span style="color: #ea5a1f;">SkySure Inspections</span>
+</div>
+
+<div class="caption lfb large-title tp-resizeme slidertext4" style="color:#fff;">
+  Because What You Can't See, Can Cost You
+</div>
+
+<div class="caption lfb tp-resizeme slidertext4" style="color:#fff; font-size:16px; margin-top:12px; font-weight: 300; line-height: 1.5;">
+  Most roof damage starts small and invisible. Annual monitoring catches expensive problems early — before they become $5,000–$15,000 repairs.
+</div>
+
+<div class="hero-cta-row">
+  <a class="btn-secondary-cta" href="roof-condition-report.html">Learn More</a>
+  <a class="btn-text-cta" href="tel:(980) 494-3993">Call/Text: (980) 494-3993</a>
+</div>
+</div>
+</section>
+<!--Why Annual Monitoring Section START-->
+<section class="why-monitoring-section" id="why-monitoring" style="background: #f8f9fa; padding: 60px 0; text-align: center;">
+<div class="container">
+  <div class="title" style="margin-bottom: 40px;">
+    <h2 style="font-size: 32px; color: #0e1f2f; margin-bottom: 10px;">Why Annual Roof Monitoring Matters</h2>
+    <p style="font-size: 16px; color: #6c7a89; max-width: 700px; margin: 0 auto;">See exactly what's happening with your roof — before small problems become expensive repairs.</p>
+  </div>
+
+  <!-- Video Tabs -->
+  <div class="video-tabs-container" style="margin-bottom: 50px;">
+    <div class="video-tabs-buttons" style="display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap;">
+      <button class="video-tab-btn active" data-video="problem" style="
+        padding: 12px 28px;
+        border: none;
+        background: #ea5a1f;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      ">❌ The Problem</button>
+      <button class="video-tab-btn" data-video="solution" style="
+        padding: 12px 28px;
+        border: 2px solid #ea5a1f;
+        background: transparent;
+        color: #ea5a1f;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      ">✅ The Solution</button>
+    </div>
+
+    <!-- Video Player Container -->
+    <div class="video-player-container" style="
+      max-width: 600px;
+      margin: 0 auto;
+      background: #000;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    ">
+      <!-- Problem Video -->
+      <video id="problem-video" class="video-active" style="
+        width: 100%;
+        height: auto;
+        display: block;
+      " controls>
+        <source src="videos/roof-monitoring/problem.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+      <!-- Solution Video (hidden by default) -->
+      <video id="solution-video" style="
+        width: 100%;
+        height: auto;
+        display: none;
+      " controls>
+        <source src="videos/roof-monitoring/solution.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+
+  <!-- Key Benefits -->
+  <div class="monitoring-benefits" style="margin: 60px 0;">
+    <h3 style="font-size: 24px; color: #0e1f2f; margin-bottom: 40px;">The Numbers That Matter</h3>
+    <div class="row" style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 30px;">
+      <div class="benefit-item" style="flex: 1; min-width: 200px; padding: 20px;">
+        <div style="font-size: 14px; color: #6c7a89; margin-bottom: 10px;">Average Roof Repair</div>
+        <div style="font-size: 36px; font-weight: 700; color: #ea5a1f;">$8,000–$15,000</div>
+      </div>
+      <div class="benefit-item" style="flex: 1; min-width: 200px; padding: 20px;">
+        <div style="font-size: 14px; color: #6c7a89; margin-bottom: 10px;">Annual Inspection Cost</div>
+        <div style="font-size: 36px; font-weight: 700; color: #0e1f2f;">$100–$200</div>
+      </div>
+      <div class="benefit-item" style="flex: 1; min-width: 200px; padding: 20px;">
+        <div style="font-size: 14px; color: #6c7a89; margin-bottom: 10px;">Time to ROI</div>
+        <div style="font-size: 36px; font-weight: 700; color: #0e1f2f;">1 Problem</div>
+        <div style="font-size: 14px; color: #6c7a89; margin-top: 5px;">= 5+ years of inspections</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What You Get -->
+  <div class="what-you-get" style="background: white; padding: 40px; border-radius: 10px; margin: 40px 0;">
+    <h3 style="font-size: 24px; color: #0e1f2f; margin-bottom: 30px;">What's Included in Every Roof Condition Report</h3>
+    <div class="row" style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 20px;">
+      <div class="get-item" style="flex: 1; min-width: 220px; padding: 15px; text-align: left;">
+        <div style="font-size: 20px; margin-bottom: 10px;">📸</div>
+        <div style="font-weight: 600; color: #0e1f2f; margin-bottom: 8px;">High-Res Drone Photos</div>
+        <div style="font-size: 14px; color: #6c7a89;">Bird's-eye view of your entire roof</div>
+      </div>
+      <div class="get-item" style="flex: 1; min-width: 220px; padding: 15px; text-align: left;">
+        <div style="font-size: 20px; margin-bottom: 10px;">📅</div>
+        <div style="font-weight: 600; color: #0e1f2f; margin-bottom: 8px;">Date-Stamped Documentation</div>
+        <div style="font-size: 14px; color: #6c7a89;">Clear proof of condition at inspection time</div>
+      </div>
+      <div class="get-item" style="flex: 1; min-width: 220px; padding: 15px; text-align: left;">
+        <div style="font-size: 20px; margin-bottom: 10px;">📋</div>
+        <div style="font-weight: 600; color: #0e1f2f; margin-bottom: 8px;">Clear Summary</div>
+        <div style="font-size: 14px; color: #6c7a89;">Easy-to-understand findings and observations</div>
+      </div>
+      <div class="get-item" style="flex: 1; min-width: 220px; padding: 15px; text-align: left;">
+        <div style="font-size: 20px; margin-bottom: 10px;">📊</div>
+        <div style="font-weight: 600; color: #0e1f2f; margin-bottom: 8px;">Roof History</div>
+        <div style="font-size: 14px; color: #6c7a89;">Documented changes over time for planning</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Testimonial -->
+  <div class="monitoring-testimonial" style="background: #ea5a1f; color: white; padding: 40px; border-radius: 10px; margin: 40px 0;">
+    <div style="font-size: 24px; margin-bottom: 20px;">⭐⭐⭐⭐⭐</div>
+    <p style="font-size: 18px; font-style: italic; margin-bottom: 15px; line-height: 1.6;">
+      "The annual roof report gave me peace of mind. When we listed our home, I shared the PDF with buyers to show our roof was in great shape."
+    </p>
+    <p style="font-size: 14px; font-weight: 600;">— Home Seller, Cornelius NC</p>
+  </div>
+
+  <!-- CTA -->
+  <div style="margin-top: 50px;">
+    <a href="#services" class="btn-primary-cta" style="
+      display: inline-block;
+      padding: 14px 32px;
+      background: #ea5a1f;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 6px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    ">See Our Service Tiers</a>
+  </div>
+</div>
+</section>
+<!--Why Annual Monitoring Section END-->
+
+<!--service start-->
+<div class="service-wrap" id="services">
+<div class="container">
+<h2>Roof Condition Report <span>Tiers</span></h2>
+<p class="sub" style="max-width:860px;margin:0 auto 12px;color:#6c7a89;">Choose your monitoring frequency. Each visit includes high-resolution drone imagery, date-stamped documentation, and a clear summary of observable conditions.</p>
+<div class="founding-inline"><span class="founding-badge">Founding Member Rate</span><span class="founding-text">Limited during initial rollout. Founding Members keep their original rate even after pricing increases.</span></div>
+<ul class="row serviceList tierList">
+  <li class="report-card col-md-4 col-sm-6" tabindex="0">
+    <div class="service-details tier-card">
+      <h3><a href="javascript:void(0)">Annual</a></h3>
+      <p>Best for proactive homeowners who want a yearly check-in and documented roof history.</p>
+      <p class="tier-price"><b>$100</b> <span class="tier-cycle">/ year</span></p>
+      <div class="readmore"><a class="js-open-appt" href="#" data-service="Annual Roof Condition Report (Founding Member Rate)">Choose Annual</a></div>
+      <p class="disclaimer-mini">Reports document observable conditions only and are not a licensed home or roofing inspection.</p>
+    </div>
+  </li>
+
+  <li class="report-card col-md-4 col-sm-6" tabindex="0">
+    <div class="service-details tier-card tier-popular">
+      <div class="tier-badge">Most Popular</div>
+      <h3><a href="javascript:void(0)">Semi-Annual</a></h3>
+      <p>Two reports per year (spring/fall) to track changes across seasons and storms.</p>
+      <p class="tier-price"><b>$150</b> <span class="tier-cycle">/ year</span></p>
+      <div class="readmore"><a class="js-open-appt" href="#" data-service="Semi-Annual Roof Condition Report (Founding Member Rate)">Choose Semi-Annual</a></div>
+      <p class="disclaimer-mini">Reports document observable conditions only and are not a licensed home or roofing inspection.</p>
+    </div>
+  </li>
+
+  <li class="report-card col-md-4 col-sm-6" tabindex="0">
+    <div class="service-details tier-card">
+      <h3><a href="javascript:void(0)">Quarterly</a></h3>
+      <p>Four reports per year—ideal for aging roofs, heavy tree cover, or storm-prone areas.</p>
+      <p class="tier-price"><b>$200</b> <span class="tier-cycle">/ year</span></p>
+      <div class="readmore"><a class="js-open-appt" href="#" data-service="Quarterly Roof Condition Report (Founding Member Rate)">Choose Quarterly</a></div>
+      <p class="disclaimer-mini">Reports document observable conditions only and are not a licensed home or roofing inspection.</p>
+    </div>
+  </li>
+</ul>
+
+<!-- What’s Included + Founding Members -->
+<section class="included-wrap" id="included" style="padding:25px 0 10px 0;">
+  <div class="title" style="margin-bottom:20px;">
+    <span><strong>What’s Included</strong> in Every Roof Condition Report</span>
+    <h2 style="margin-top:6px;">Clear Visual Documentation. Easy Summary.</h2>
+    <p>Because What You Can't See, Can Cost You</p>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <ul class="about-service" style="margin-top:0;">
+        <li>High-resolution aerial imagery</li>
+        <li>Observations of visible wear, damage, or changes</li>
+        <li>Date-stamped visual documentation</li>
+        <li>A clear, easy-to-understand summary</li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <div class="notice-box">
+        <strong>Important:</strong>
+        Reports document observable conditions only and are not a licensed home or roofing inspection.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="founding" style="padding:10px 0 30px 0;">
+  <div class="title" style="margin-bottom:18px;">
+    <span><strong>New:</strong> Roof Condition Monitoring Program</span>
+    <h2 style="margin-top:6px;">Founding Member Program</h2>
+    <p>Enroll through the form—no long-term contract. Cancel anytime.</p>
+  </div>
+
+  <div class="row">
+    <div class="col-md-7">
+      <ul class="about-service" style="margin-top:0;">
+        <li>Preferred Founding Member pricing</li>
+        <li>Priority scheduling</li>
+        <li>Recurring Roof Condition Reports (annual, semi-annual, or quarterly)</li>
+        <li>Documented roof history for maintenance planning, insurance, or resale</li>
+        <li>No long-term contract — cancel anytime</li>
+      </ul>
+    </div>
+    <div class="col-md-5">
+      <div class="notice-box" style="background:#fff;">
+        <strong>Founding Member Availability</strong>
+        <p style="margin-top:10px;">
+          Founding Member pricing is limited and offered only during the initial rollout of the SkySure Roof Condition Monitoring Program.
+        </p>
+        <hr style="margin:12px 0;">
+        <p style="margin:0;">
+          <strong>Once closed:</strong><br>
+          Enrollment remains open<br>
+          Pricing increases for new members<br>
+          Founding Members retain their original rate
+        </p>
+        <div style="margin-top:14px;">
+          <a class="js-open-appt" href="#" data-service="Founding Member Program (Need help choosing)">Join as a Founding Member</a>
+        </div>
+        <p class="disclaimer-mini" style="margin-top:10px;">
+          Reports document observable conditions only and are not a licensed home or roofing inspection.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<h2 style="margin-top:40px;">Additional <span>Services</span></h2>
+<p class="sub" style="max-width:860px;margin:0 auto 20px;color:#6c7a89;">Optional add-ons and specialty services.</p>
+<ul class="row serviceList second">
+<li class="report-card col-md-4 col-sm-6" data-action="video" data-src="images/LandSurveyFinal.mp4" tabindex="0">
+<div class="service-image"><img class="ri" loading="lazy" alt="Land Survey Flyover preview" src="images/five.jpg"/ data-src="images/five.jpg">
+<div class="hoverlink">
+<div class="icon"><a href="javascript:void(0)"><i aria-hidden="true" class="fa fa-link"></i></a><span class="tap">Tap to view</span></div>
+</div>
+<span aria-hidden="true" class="hoverhint"><span class="click">Click to view</span></span></div>
+<div class="service-details">
+<h3><a href="javascript:void(0)" onclick="event.stopPropagation(); return false;">Land Survey Flyover</a></h3>
+<p>Visualize property lines, terrain, and boundaries for undeveloped or large parcels.</p>
+<p><b>Quote Required</b></p>
+<!-- <div class="readmore"><a href="#">Read More</a></div> -->
+</div>
+</li>
+<li class="report-card col-md-4 col-sm-6" data-action="image" data-src="images/insurance-claim.png" tabindex="0">
+<div class="service-image"><img class="ri" loading="lazy" src="images/six.jpg" alt="Insurance claim documentation preview"/ data-src="images/six.jpg">
+<div class="hoverlink">
+<div class="icon"><a href="javascript:void(0)"><i aria-hidden="true" class="fa fa-link"></i></a><span class="tap">Tap to view</span></div>
+</div>
+<span aria-hidden="true" class="hoverhint"><span class="click">Click to view</span></span></div>
+<div class="service-details">
+<h3><a href="javascript:void(0)" onclick="event.stopPropagation(); return false;">Insurance Claim Documentation</a></h3>
+<p>Capture detailed roof damage imagery to support faster, smoother claim resolution.</p>
+<p><b>$150 Flat Rate</b></p>
+<!-- <div class="readmore"><a href="#">Read More</a></div> -->
+</div>
+</li>
+<li class="report-card col-md-4 col-sm-6" data-action="image" data-src="images/realtor-addon.png" tabindex="0">
+<div class="service-image"><img class="ri" loading="lazy" src="images/four.jpg" alt="Realtor marketing add-on preview"/ data-src="images/four.jpg">
+<div class="hoverlink">
+<div class="icon"><a href="javascript:void(0)"><i aria-hidden="true" class="fa fa-link"></i></a><span class="tap">Tap to view</span></div>
+</div>
+<span aria-hidden="true" class="hoverhint"><span class="click">Click to view</span></span></div>
+<div class="service-details">
+<h3><a href="javascript:void(0)" onclick="event.stopPropagation(); return false;">Realtor Marketing Add-On</a></h3>
+<p>Aerial footage to elevate your listing with dramatic views and visual clarity.</p>
+<p><b>$50 Add-On</b></p>
+<!-- <div class="readmore"><a href="#">Read More</a></div> -->
+</div>
+</li>
+</ul>
+</div>
+</div>
+<!--service end-->
+<!--About start-->
+<div class="about-wrap" id="about">
+<div class="container">
+<div class="row align-items-center">
+<div class="col-md-7">
+<h2>About <span>SkySure</span></h2>
+<p>SkySure Inspections helps buyers, sellers, homeowners, and real estate agents gain confidence in the roof—one of the most expensive components of a home. Our drone-based Roof Condition Reports provide sharp, date-stamped imagery and a clear summary of observable conditions so you can plan maintenance, document changes over time, or share visuals with a contractor, insurer, or future buyer.</p>
+<!-- <div class="readmore"><a href="#">Read More</a></div> -->
+</div>
+<div class="col-md-5">
+<div class="about-image"><img class="ri" loading="lazy" alt="" aria-hidden="true" role="presentation" src="images/feature-image-3.jpg"/ data-src="images/feature-image-3.jpg"></div>
+</div>
+</div>
+</div>
+</div>
+<!--About start-->
+<!-- Testimonials -->
+    <section class="testimonials" id="testimonials" aria-labelledby="skysure-testimonials-heading" style="padding: 60px 0; background:#f7f9fc;">
+      <div class="container">
+        <h2 id="skysure-testimonials-heading">What Homeowners & Partners Say</h2>
+        <p class="sub" style="color:#6c7a89;margin-bottom:20px;">Real feedback from families, buyers, and trade partners who’ve used SkySure Inspections.</p>
+        <div class="row">
+          <div class="col-md-4">
+            <blockquote style="background:#fff;border-left:4px solid #ea5a1f;border-radius:8px;padding:16px;min-height:140px;">
+              <span class="stars" aria-label="5 out of 5 stars">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+              </span>
+              “SkySure’s drone photos revealed storm damage we never would have spotted from the ground. The report made our insurance claim straightforward.”
+              <footer style="margin-top:10px;color:#6c7a89;">— Homeowner, Mooresville NC</footer>
+            </blockquote>
+          </div>
+          <div class="col-md-4">
+            <blockquote style="background:#fff;border-left:4px solid #ea5a1f;border-radius:8px;padding:16px;min-height:140px;">
+              <span class="stars" aria-label="5 out of 5 stars">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+              </span>
+              “The annual roof report gave me peace of mind. When we listed our home, I shared the PDF with buyers to show our roof was in great shape.”
+              <footer style="margin-top:10px;color:#6c7a89;">— Home Seller, Cornelius NC</footer>
+            </blockquote>
+          </div>
+          <div class="col-md-4">
+            <blockquote style="background:#fff;border-left:4px solid #ea5a1f;border-radius:8px;padding:16px;min-height:140px;">
+              <span class="stars" aria-label="5 out of 5 stars">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+              </span>
+              “As a roofer, SkySure’s clear damage documentation saves my team time and helps homeowners see exactly what needs attention.”
+              <footer style="margin-top:10px;color:#6c7a89;">— Roofing Partner, Huntersville NC</footer>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<!-- ===== SkySure: Top 5 FAQs (home) ===== -->
+<section class="faqs" id="faq" aria-labelledby="faq-heading">
+  <div class="container" id="skysure-faq">
+    <h2 id="faq-heading">Frequently Asked Questions</h2>
+
+    <ul class="faqs-service">
+      <li>
+        <h4 tabindex="0" role="button" aria-expanded="false">How long does a Roof Condition Report take?</h4>
+        <p>Most roof reports take <strong>30–45 minutes onsite</strong>, with your full report delivered within <strong>24 hours</strong>.</p>
+      </li>
+      <li>
+        <h4 tabindex="0" role="button" aria-expanded="false">Is it safe to fly drones over my home?</h4>
+        <p>Yes. SkySure is <strong>FAA Part 107 Certified</strong> and follows strict safety protocols and flight regulations to protect your property.</p>
+      </li>
+      <li>
+        <h4 tabindex="0" role="button" aria-expanded="false">Can I use your roof report for an insurance claim?</h4>
+        <p>Absolutely. Our reports include <strong>high-resolution images and detailed notes</strong> that insurers accept to support storm-damage or repair claims.</p>
+      </li>
+      <li>
+        <h4 tabindex="0" role="button" aria-expanded="false">Why not just have a roofer inspect my roof?</h4>
+        <p>Roofers are great for repairs, but may miss small issues—or focus on what they can sell. SkySure provides an <strong>unbiased, third-party Roof Condition Report</strong> so you know the truth before committing to repairs.</p>
+      </li>
+      <li>
+        <h4 tabindex="0" role="button" aria-expanded="false">How much does a Roof Condition Report cost?</h4>
+        <p>Pricing depends on your preferred frequency, but most roof reports are <strong>a fraction of the cost of roof repairs</strong>—a small investment that can save thousands by catching problems early.</p>
+      </li>
+    </ul>
+
+    <div class="mt-3">
+      <a href="faq.html" class="btn btn-outline-primary">See all FAQs</a>
+    </div>
+  </div> 
+</section>
+
+<!--Footer start-->
+<div class="footer-wrap">
+<div class="container">
+<div class="footer-content">
+<div class="footer-logo"><a aria-label="SkySure Inspections home" href="index.html"><img alt="SkySure Inspections" src="images/footer-logo.png"/></a></div>
+<p>FAA Part 107 Certified | Insured | Roof Condition Reports (Drone-Based). Reports document observable conditions only and are not a licensed home or roofing inspection.</p>
+<div class="address_info">
+<div class="call-us">Email: <a href="/cdn-cgi/l/email-protection#83f0f6f3f3ecf1f7c3f0e8faf0f6f1e6eaedf0f3e6e0f7eaecedf0ade0ecee"><span class="__cf_email__" data-cfemail="42313732322d30360231293b313730272b2c31322721362b2d2c316c212d2f">[email&#160;protected]</span></a></div>
+<div class="fax">Phone: <a href="tel:(980) 494-3993">(980) 494-3993</a></div>
+<div class="footer-address">Hours: M–F 9am–8pm | Sat 9am–6pm | Sun 9am–12pm</div>
+</div>
+</div>
+</div>
+</div>
+<!--Footer end-->
+<!-- Modal backdrop -->
+<div class="backdrop" hidden="" id="modal-backdrop"></div>
+<!-- Appointment form modal -->
+<div aria-describedby="appt-desc" aria-labelledby="appt-title" aria-modal="true" hidden="" id="appointment-form" role="dialog" tabindex="-1">
+<button aria-label="Close form" class="close-btn">×</button>
+<h3 id="appt-title">Schedule a Roof Report</h3>
+<p class="sr-only" id="appt-desc">
+    Provide your contact information and service preference to request an appointment.
+</p>
+
+<form action="https://formspree.io/f/xnnzvgyl" id="inspection-form" method="POST" novalidate="">
+  
+  <!-- Formspree redirect to Thank You page -->
+  <input type="hidden" name="_redirect" value="https://www.skysureinspections.com/thank-you/">
+
+  <div class="form-grid">
+    <div class="field">
+      <label for="name">Name</label>
+      <input autocomplete="name" id="name" name="Name" placeholder="Name" required="" />
+    </div>
+
+    <div class="field">
+      <label for="email">Email</label>
+      <input autocomplete="email" id="email" name="Email" placeholder="Email" required="" type="email" />
+    </div>
+
+    <div class="field">
+      <label for="phone">Phone</label>
+      <input autocomplete="tel" id="phone" inputmode="tel" name="Phone" placeholder="Phone #" type="tel" />
+    </div>
+
+    <div class="field">
+      <label for="service">Service</label>
+      <select id="service" name="Service">
+        <option value="Annual Roof Condition Report (Founding Member Rate)">$100 — Annual Roof Condition Report (Founding Member Rate)</option>
+        <option value="Semi-Annual Roof Condition Report (Founding Member Rate)">$150 — Semi-Annual Roof Condition Report (Founding Member Rate)</option>
+        <option value="Quarterly Roof Condition Report (Founding Member Rate)">$200 — Quarterly Roof Condition Report (Founding Member Rate)</option>
+        <option value="Founding Member Program (Need help choosing)">Founding Member Program (Need help choosing)</option>
+        <option value="Insurance Claim Documentation">Insurance Claim Documentation</option>
+        <option value="Realtor Marketing Add-On">Realtor Marketing Add-On</option>
+        <option value="Land Survey Flyover">Land Survey Flyover</option>
+      </select>
+      <p class="disclaimer-mini" style="margin-top:8px;">
+        Reports document observable conditions only and are not a licensed home or roofing inspection.
+      </p>
+    </div>
+
+    <div class="field full">
+      <label for="timeframe">Preferred Timeframe</label>
+      <input id="timeframe" name="Timeframe" placeholder="Preferred Timeframe" />
+    </div>
+
+    <div class="field full">
+      <label for="comments">Additional Comments</label>
+      <textarea id="comments" name="Comments" placeholder="Additional Comments"></textarea>
+    </div>
+
+    <div aria-live="polite" class="full sr-only" id="form-message"></div>
+
+    <div class="full">
+      <button id="submit-btn" type="submit">Submit</button>
+    </div>
+  </div>
+</form>
+
+<!--page scroll start-->
+<div class="page-scroll scrollToTop"><a href="#"><i aria-hidden="true" class="fa fa-arrow-up"></i></a></div>
+<!--page scroll start-->
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script defer src="js/jquery-2.1.4.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script defer src="js/bootstrap.min.js"></script>
+<!-- Load JS siles -->
+<!-- SLIDER REVOLUTION SCRIPTS  -->
+<script defer src="js/jquery.themepunch.tools.min.js" type="text/javascript"></script>
+<script defer src="js/jquery.themepunch.revolution.min.js" type="text/javascript"></script>
+<!-- general script file -->
+<script defer src="js/owl.carousel.js"></script>
+<script defer src="js/script.js" type="text/javascript"></script>
+<script defer src="js/custom.js"></script>
+<!-- Report Lightbox -->
+<div class="report-overlay" hidden="" id="report-overlay">
+<div class="report-backdrop" data-close="1"></div>
+<div aria-label="Sample Roof Condition Report" aria-modal="true" class="report-modal" role="dialog">
+<button aria-label="Close" class="report-close" data-close="1" type="button">×</button>
+<div class="report-toolbar">
+<div class="left">
+<button aria-label="Previous page" class="nav-btn" id="report-prev" type="button">‹</button>
+<div class="report-counter" id="report-counter">1 / 4</div>
+<button aria-label="Next page" class="nav-btn" id="report-next" type="button">›</button>
+</div>
+<div class="right">
+<button aria-label="Zoom out" class="zoom-btn" id="zoom-out">−</button>
+<span class="zoom-label" data-zoom-label="" id="zoom-label">100%</span>
+<button aria-label="Zoom in" class="zoom-btn" id="zoom-in">+</button>
+<button aria-label="Reset zoom" class="zoom-btn" id="zoom-reset">Reset</button>
+</div>
+</div>
+<div class="report-frame">
+<img class="ri" loading="lazy" alt="Sample Report page" id="report-image" src=""/ data-src="">
+</div>
+<div aria-label="Page thumbnails" class="thumbs" id="report-thumbs"></div>
+</div>
+
+
+
+
+</div>
+<!-- Simple single-image lightbox -->
+<div hidden="" id="img-lightbox">
+<div data-close="1" id="img-backdrop"></div>
+<figure aria-label="Image preview" aria-modal="true" id="img-modal" role="dialog">
+<button aria-label="Close" data-close="1" id="img-close" type="button">×</button>
+<img class="ri" loading="lazy" alt="Preview image" id="img-view" src=""/ data-src="">
+<figcaption class="sr-only" id="img-caption">Preview</figcaption>
+</figure>
+</div>
+<style>
+  #img-lightbox[hidden]{ display:none !important; }
+  #img-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.8); z-index:2147483000; }
+  #img-modal{ position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    margin:0; z-index:2147483001; background:#000; padding:0; border-radius:8px;
+    max-width:95vw; max-height:90vh; display:flex; flex-direction:column; }
+  #img-view{ max-width:95vw; max-height:85vh; object-fit:contain; }
+  #img-close{ position:absolute; top:-12px; right:-12px; width:36px; height:36px; border-radius:50%;
+    border:none; background:#fff; font-size:20px; line-height:1; cursor:pointer; }
+</style>
+
+<!-- Video Modal -->
+<div class="video-modal-overlay" hidden="" id="videoModal">
+<div class="video-modal-container">
+<button class="video-modal-close">×</button>
+<div class="video-modal-content">
+<video controls="" id="surveyVideo" poster="images/land-survey-poster.jpg" style="max-width:90vw; max-height:80vh;">
+<source src="" type="video/mp4"/>
+        Your browser does not support the video tag.
+      </video>
+<a href="#" id="video-open-tab" style="display:block;margin-top:8px;text-align:center;color:#fff;text-decoration:underline;" target="_blank">Open video in new tab</a>
+</div>
+</div>
+</div>
+<style>
+.video-modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%;
+  background: rgba(0,0,0,0.85); display:flex; justify-content:center; align-items:center;
+  z-index:2147483500; }
+.video-modal-container{ position:relative; background:#000; padding:10px; border-radius:8px; }
+.video-modal-close{ position:absolute; top:-30px; right:-30px; font-size:30px;
+  background:#fff; border:none; border-radius:50%; cursor:pointer; width:40px; height:40px; }
+</style>
+
+<script defer="True" src="js/app.js"></script><script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(function (err) {
+        console.warn('SW registration failed:', err);
+      });
+    });
+  }
+</script>
+<script>
+(function () {
+  function pickSize() { var w = Math.min(window.innerWidth||0, screen.width||0); if (w<=520) return 480; if (w<=900) return 768; return 0; }
+  function makeCandidates(src, size) { var dot = src.lastIndexOf('.'); if (dot<0) return []; var base = src.slice(0,dot); var ext = src.slice(dot+1).toLowerCase(); return [base+'-'+size+'.webp', base+'-'+size+'.'+ext]; }
+  function preload(url){ return new Promise(function(res,rej){ var i=new Image(); i.onload=function(){res(url)}; i.onerror=rej; i.src=url; }); }
+  function swap(img,url){ img.setAttribute('data-src-original', img.src); img.src=url; }
+  function trySwap(img,size){ var src=img.getAttribute('data-src')||img.src; var c=makeCandidates(src,size); preload(c[0]).then(function(){swap(img,c[0])}).catch(function(){preload(c[1]).then(function(){swap(img,c[1])}).catch(function(){})}); }
+  function init(){ var s=pickSize(); if(!s) return; var imgs=document.querySelectorAll('img.ri'); for(var i=0;i<imgs.length;i++) trySwap(imgs[i],s); }
+  if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', init); } else { init(); }
+  window.addEventListener('orientationchange', function(){ init(); });
+})();
+</script>
+<script>
+(function(){
+  function run(){ try { /* move heavy init here if needed */ } catch(e){} }
+  if ('requestIdleCallback' in window) {
+    window.addEventListener('load', function(){ requestIdleCallback(run, {timeout: 2000}); });
+  } else {
+    window.addEventListener('load', function(){ setTimeout(run, 600); });
+  }
+})();
+</script>
+<script>
+(function(){
+  var hasTouch = window.matchMedia && window.matchMedia('(hover: none)').matches;
+  if (!hasTouch) return;
+  var DOWN = {};
+  function now(){ return (performance && performance.now) ? performance.now() : Date.now(); }
+  function dist(a,b){ var dx=a.x-b.x, dy=a.y-b.y; return Math.sqrt(dx*dx+dy*dy); }
+  var MAX_MOVE=10, MAX_TIME=450, MAX_SCROLL=8;
+  function onPointerDown(e){
+    if (e.pointerType && e.pointerType !== 'touch') return;
+    var t=e.target, card=t.closest && t.closest('li.report-card, .report-card');
+    if (!card) return;
+    DOWN[e.pointerId||0]={t:now(),x:e.clientX,y:e.clientY,sy:window.pageYOffset||document.documentElement.scrollTop||0,card:card};
+  }
+  function onPointerUp(e){
+    if (e.pointerType && e.pointerType !== 'touch') return;
+    var rec=DOWN[e.pointerId||0]; delete DOWN[e.pointerId||0];
+    if(!rec) return;
+    var dur=now()-rec.t, mv=dist({x:e.clientX,y:e.clientY},{x:rec.x,y:rec.y});
+    var sdy=Math.abs((window.pageYOffset||document.documentElement.scrollTop||0)-rec.sy);
+    if (dur>MAX_TIME || mv>MAX_MOVE || sdy>MAX_SCROLL) return;
+    e.preventDefault(); e.stopPropagation();
+    try { rec.card.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,view:window})); } catch(_) { rec.card.click && rec.card.click(); }
+    if (window.jQuery) { try { window.jQuery(rec.card).trigger('click'); } catch(_){} }
+  }
+  if (window.PointerEvent) {
+    document.addEventListener('pointerdown', onPointerDown, {capture:true, passive:true});
+    document.addEventListener('pointerup', onPointerUp, {capture:true, passive:false});
+  } else {
+    document.addEventListener('touchstart', function(e){ var t=e.changedTouches[0]; if(!t) return;
+      onPointerDown({pointerId:0, clientX:t.clientX, clientY:t.clientY, target:e.target, pointerType:'touch'});
+    }, {capture:true, passive:true});
+    document.addEventListener('touchend', function(e){ var t=e.changedTouches[0]; if(!t) return;
+      onPointerUp({pointerId:0, clientX:t.clientX, clientY:t.clientY, target:e.target, pointerType:'touch', preventDefault:function(){e.preventDefault();}, stopPropagation:function(){e.stopPropagation();}});
+    }, {capture:true, passive:false});
+  }
+})();
+</script>
+<script>
+(function(){
+  var $ov, $img, $close, $backdrop;
+  function q(s, c){ return (c||document).querySelector(s); }
+  function ready(f){ if(document.readyState!=='loading') f(); else document.addEventListener('DOMContentLoaded', f); }
+  function matchCard(t){
+    var li = t.closest ? t.closest('.report-card[data-action="image"]') : null;
+    if (!li) return null;
+    var url = li.getAttribute('data-src') || '';
+    return /insurance-claim|realtor-addon/i.test(url) ? url : null;
+  }
+  function openOverlay(url){
+    try { url = new URL(url, location.href).href; } catch(e){}
+    var probe = new Image();
+    probe.onload = function(){
+      document.body.classList.add('noscroll');
+      $img.src = url;
+      $ov.classList.add('open');
+      $ov.setAttribute('aria-hidden', 'false');
+    };
+    probe.onerror = function(){ window.open(url, '_blank', 'noopener'); };
+    probe.src = url;
+  }
+  function closeOverlay(){
+    $ov.classList.remove('open');
+    $ov.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('noscroll');
+    $img.removeAttribute('src');
+  }
+  function onClick(e){
+    var url = matchCard(e.target);
+    if (!url) return;
+    e.preventDefault(); e.stopPropagation();
+    openOverlay(url);
+  }
+  function onKey(e){ if (e.key === 'Escape') closeOverlay(); }
+  function onBackdrop(e){ if (e.target === $backdrop || e.target === $close) closeOverlay(); }
+
+  ready(function(){
+    $ov = q('#docOverlay'); $img = q('#docOverlay .doc-img'); $close = q('#docOverlay .close'); $backdrop = q('#docOverlay .backdrop');
+    document.addEventListener('click', onClick, {capture:true});
+    document.addEventListener('keydown', onKey);
+    $ov.addEventListener('click', onBackdrop);
+  });
+})();
+</script>
+<script>
+(function(){
+  function initFAQ(){
+    var $ = window.jQuery; if(!$) return;
+    var $root = $('#skysure-faq'); if(!$root.length) return;
+    var $headers = $root.find('.faqs-service h4');
+    var speed = 180;
+    $headers.removeClass('active').attr('aria-expanded','false').next('p').hide();
+    function activate($h){
+      var $p = $h.next('p'); var open = $h.hasClass('active');
+      $headers.filter('.active').not($h).removeClass('active').attr('aria-expanded','false').next('p').slideUp(speed);
+      if(open){ $h.removeClass('active').attr('aria-expanded','false'); $p.slideUp(speed); }
+      else { $h.addClass('active').attr('aria-expanded','true'); $p.slideDown(speed); }
+    }
+    $headers.on('click', function(){ activate($(this)); });
+    $headers.on('keydown', function(e){ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); activate($(this)); }});
+  }
+  if(document.readyState!=='loading'){ initFAQ(); }
+  else{ document.addEventListener('DOMContentLoaded', initFAQ); }
+})();
+</script>
+<script>
+(function(){
+  function headerOffset(){
+    var $ = window.jQuery;
+    var h = 0;
+    var parts = $('.header:visible, .navbar:visible, header:visible, .navigation:visible');
+    parts.each(function(){ h = Math.max(h, $(this).outerHeight() || 0); });
+    if(!h || h < 50) h = 70; // fallback
+    if(window.matchMedia && window.matchMedia('(max-width: 991px)').matches) h += 30;
+    return h;
+  }
+  function smoothScrollTo($target){
+    var $ = window.jQuery; if(!$target.length) return;
+    var top = $target.offset().top - headerOffset();
+    $('html, body').stop(true).animate({scrollTop: Math.max(0, top)}, 320);
+  }
+  function setupFAQAnchor(){
+    var $ = window.jQuery; if(!$) return;
+    var $coll = $('.navbar-collapse');
+    $(document).on('click', 'a[href="#faq"], a[href="#FAQ"]', function(e){
+      e.preventDefault();
+      var go = function(){ smoothScrollTo($('#faq')); };
+      if($coll.length && $coll.hasClass('in')){
+        $coll.one('hidden.bs.collapse', function(){ setTimeout(go, 10); });
+        $coll.collapse('hide');
+      } else {
+        go();
+      }
+    });
+    // If landing with #faq in URL
+    if(location.hash && location.hash.toLowerCase() === '#faq'){
+      setTimeout(function(){ smoothScrollTo($('#faq')); }, 60);
+    }
+  }
+  if(document.readyState !== 'loading') setupFAQAnchor();
+  else document.addEventListener('DOMContentLoaded', setupFAQAnchor);
+})();
+</script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Review",
+  "author": {
+    "@type": "Person",
+    "name": "Homeowner, Mooresville NC"
+  },
+  "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": "5",
+    "bestRating": "5"
+  },
+  "reviewBody": "SkySure’s drone photos revealed storm damage we never would have spotted from the ground. The report made our",
+    "ratingValue": "5",
+    "bestRating": "5"
+  },
+  "reviewBody": "The annual roof report gave me peace of mind. When we listed our home, I shared the PDF with buyers to show our roof was in great shape."
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Review",
+  "author": {
+    "@type": "Organization",
+    "name": "Roofing Partner, Huntersville NC"
+  },
+  "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": "5",
+    "bestRating": "5"
+  },
+  "reviewBody": "As a roofer, SkySure’s clear damage documentation saves my team time and helps homeowners see exactly what needs attention."
+}
+</script>
+
+
+<script>
+/**
+ * Formspree Free Plan Redirect Workaround
+ * Submits the form via fetch to Formspree, then redirects to /thank-you/ on success.
+ */
+(function () {
+  function onReady(fn){
+    if (document.readyState !== 'loading') fn();
+    else document.addEventListener('DOMContentLoaded', fn);
+  }
+
+  onReady(function () {
+    var form = document.getElementById('inspection-form');
+    if (!form) return;
+
+    var msgEl = document.getElementById('form-message');
+    var submitBtn = document.getElementById('submit-btn');
+    var THANK_YOU_URL = 'https://www.skysureinspections.com/thank-you/';
+
+    form.addEventListener('submit', async function (e) {
+      // Use capture-phase listener to win over other handlers, if any.
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+      }
+      if (msgEl) {
+        msgEl.classList.remove('sr-only');
+        msgEl.textContent = '';
+      }
+
+      try {
+        var formData = new FormData(form);
+
+        var res = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.ok) {
+          window.location.assign(THANK_YOU_URL);
+          return;
+        }
+
+        var errText = 'Sorry — something went wrong submitting the form. Please try again or call/text us.';
+        try {
+          var data = await res.json();
+          if (data && data.errors && data.errors.length && data.errors[0].message) {
+            errText = data.errors[0].message;
+          }
+        } catch (_) {}
+
+        if (msgEl) msgEl.textContent = errText;
+
+      } catch (err) {
+        if (msgEl) msgEl.textContent = 'Network error — please try again in a moment.';
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit';
+        }
+      }
+    }, true);
+  });
+})();
+</script>
+
+<!-- Video Tabs Functionality -->
+<script>
+(function(){
+  function initVideoTabs(){
+    var buttons = document.querySelectorAll('.video-tab-btn');
+    if(!buttons.length) return;
+
+    buttons.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var videoType = this.getAttribute('data-video');
+        
+        // Hide all videos and deactivate all buttons
+        var allVideos = document.querySelectorAll('.video-player-container video');
+        allVideos.forEach(function(v){ v.style.display = 'none'; });
+        
+        var allBtns = document.querySelectorAll('.video-tab-btn');
+        allBtns.forEach(function(b){
+          b.style.background = 'transparent';
+          b.style.color = '#ea5a1f';
+          b.style.border = '2px solid #ea5a1f';
+        });
+
+        // Show selected video and activate button
+        var videoEl = document.getElementById(videoType + '-video');
+        if(videoEl){
+          videoEl.style.display = 'block';
+          videoEl.pause();
+          videoEl.currentTime = 0;
+        }
+
+        // Style active button
+        this.style.background = '#ea5a1f';
+        this.style.color = 'white';
+        this.style.border = 'none';
+      });
+    });
+  }
+
+  if(document.readyState !== 'loading'){
+    initVideoTabs();
+  } else {
+    document.addEventListener('DOMContentLoaded', initVideoTabs);
+  }
+})();
+</script>
+
+</body>
+</html>
