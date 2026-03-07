@@ -273,6 +273,41 @@ body.noscroll{overflow:hidden!important;}
   </div>
 </div>
 
+<!-- REQUEST INFO FORM MODAL (NEW) -->
+<div id="request-info-backdrop" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2147483646;"></div>
+<div id="request-info-form" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 10px; padding: 40px; max-width: 500px; width: 90%; z-index: 2147483647; box-shadow: 0 20px 60px rgba(0,0,0,.35);">
+  <button class="close-info-btn" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 28px; cursor: pointer; color: #999;">&times;</button>
+  
+  <h2 style="color: #0e1f2f; margin-bottom: 20px; font-size: 28px; font-weight: 700;">Have Questions?</h2>
+  <p style="color: #6c7a89; margin-bottom: 30px;">Send us your questions and we'll get back to you within 24 hours.</p>
+  
+  <form id="request-info-form-element" style="display: flex; flex-direction: column; gap: 15px;">
+    <div>
+      <label style="display: block; color: #0e1f2f; font-weight: 600; margin-bottom: 5px;">Name</label>
+      <input type="text" name="name" placeholder="Your Name" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;" required>
+    </div>
+    
+    <div>
+      <label style="display: block; color: #0e1f2f; font-weight: 600; margin-bottom: 5px;">Email</label>
+      <input type="email" name="email" placeholder="your@email.com" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;" required>
+    </div>
+    
+    <div>
+      <label style="display: block; color: #0e1f2f; font-weight: 600; margin-bottom: 5px;">Phone (Optional)</label>
+      <input type="tel" name="phone" placeholder="(980) 494-3993" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+    </div>
+    
+    <div>
+      <label style="display: block; color: #0e1f2f; font-weight: 600; margin-bottom: 5px;">Your Question</label>
+      <textarea name="message" placeholder="Tell us what you'd like to know..." style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; min-height: 120px; font-family: inherit;" required></textarea>
+    </div>
+    
+    <button type="submit" style="background: #ea5a1f; color: white; padding: 14px; border: none; border-radius: 6px; font-weight: 600; font-size: 16px; cursor: pointer; transition: all 0.3s;">SEND QUESTION</button>
+    
+    <p style="font-size: 12px; color: #999; text-align: center; margin-top: 10px;">We respect your privacy. No spam, ever.</p>
+  </form>
+</div>
+
 <!-- Header start -->
 <div class="header sticky">
 <div class="container">
@@ -323,9 +358,14 @@ body.noscroll{overflow:hidden!important;}
   Most roof damage starts small and invisible. Annual monitoring catches expensive problems early — before they become $5,000–$15,000 repairs.
 </div>
 
-<div class="hero-cta-row">
-  <a class="btn-secondary-cta" href="roof-condition-report.html">Learn More</a>
-  <a class="btn-text-cta" href="tel:(980) 494-3993">Call/Text: (980) 494-3993</a>
+<div class="hero-cta-row" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+  <button class="video-trigger" data-video="problem" style="padding: 14px 32px; border: none; background: #ea5a1f; color: white; font-size: 16px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.3s;">❌ The Problem</button>
+  <button class="video-trigger" data-video="solution" style="padding: 14px 32px; border: 2px solid white; background: transparent; color: white; font-size: 16px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.3s;">✅ The Solution</button>
+</div>
+
+<!-- Have Questions Button -->
+<div style="margin-top: 30px;">
+  <button class="js-open-info" style="padding: 12px 28px; border: 1px solid white; background: transparent; color: white; font-size: 14px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.3s;">Have Questions?</button>
 </div>
 </div>
 </section>
@@ -543,7 +583,7 @@ body.noscroll{overflow:hidden!important;}
   Roof Condition Reports (Drone-Based). Reports document observable conditions only and are not a licensed home or roofing inspection.
 </p>
 <p style="margin: 15px 0;">
-  <strong>Email:</strong> <a href="mailto:support@skysureinspections.com" style="color: #ea5a1f; text-decoration: none;">support@skysureinspections.com</a><br>
+  <strong>Email:</strong> <a href="/cdn-cgi/l/email-protection#a4d7d1d4d4cbd6d0e4d7cfddd7d1d6c1cdcad7d4c1c7d0cdcbcad78ac7cbc9" style="color: #ea5a1f; text-decoration: none;"><span class="__cf_email__" data-cfemail="fb888e8b8b94898fbb889082888e899e9295888b9e988f92949588d5989496">[email&#160;protected]</span></a><br>
   <strong>Phone:</strong> <a href="tel:(980) 494-3993" style="color: #ea5a1f; text-decoration: none;">(980) 494-3993</a><br>
   <strong>Hours:</strong> M–F 9am–8pm | Sat 9am–6pm | Sun 9am–12pm
 </p>
@@ -554,7 +594,7 @@ body.noscroll{overflow:hidden!important;}
 </footer>
 
 <!-- VIDEO MODAL SCRIPT -->
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function(){
   var modal = document.getElementById('video-modal');
   var modalVideo = document.getElementById('modal-video');
@@ -604,6 +644,72 @@ body.noscroll{overflow:hidden!important;}
   document.addEventListener('keydown', function(e){
     if(e.key === 'Escape' && modal.classList.contains('open')){
       closeModal();
+    }
+  });
+})();
+</script>
+
+<!-- REQUEST INFO FORM SCRIPT (NEW) -->
+<script>
+(function(){
+  var backdrop = document.getElementById('request-info-backdrop');
+  var form = document.getElementById('request-info-form');
+  var openBtn = document.querySelector('.js-open-info');
+  var closeBtn = form.querySelector('.close-info-btn');
+  var formElement = document.getElementById('request-info-form-element');
+
+  function openForm(){
+    backdrop.style.display = 'block';
+    form.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeForm(){
+    backdrop.style.display = 'none';
+    form.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  openBtn.addEventListener('click', openForm);
+  closeBtn.addEventListener('click', closeForm);
+
+  backdrop.addEventListener('click', closeForm);
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && form.style.display === 'block'){
+      closeForm();
+    }
+  });
+
+  // Handle form submission
+  formElement.addEventListener('submit', async function(e){
+    e.preventDefault();
+    
+    var submitBtn = formElement.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+
+    try {
+      var formData = new FormData(formElement);
+      
+      var res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        alert('Thank you! We\'ll get back to you within 24 hours.');
+        formElement.reset();
+        closeForm();
+      } else {
+        alert('Something went wrong. Please try again or call us directly at (980) 494-3993.');
+      }
+    } catch (err) {
+      alert('Network error. Please try again or call (980) 494-3993.');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'SEND QUESTION';
     }
   });
 })();
@@ -698,17 +804,4 @@ body.noscroll{overflow:hidden!important;}
         if (msgEl) msgEl.textContent = errText;
 
       } catch (err) {
-        if (msgEl) msgEl.textContent = 'Network error — please try again in a moment.';
-      } finally {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Submit';
-        }
-      }
-    }, true);
-  });
-})();
-</script>
-
-</body>
-</html>
+        if (msgEl) ms
