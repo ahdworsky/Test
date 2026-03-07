@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <!-- Performance hints -->
@@ -9,8 +10,12 @@
 <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="upgrade-insecure-requests" http-equiv="Content-Security-Policy"/>
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <title>SkySure Inspections</title>
+<!-- Fav Icon -->
 <link href="favicon.ico" rel="shortcut icon"/>
+<!-- Bootstrap -->
+<!-- font-awesome.min -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 <link href="css/bootstrap.min.css" rel="stylesheet"/>
 <link href="css/font-awesome.css" rel="stylesheet"/>
@@ -22,8 +27,37 @@
 <style>
 .report-card { cursor: pointer; }
 </style>
+<style>
+/* Appointment form must appear above all overlays */
+#appointment-form{ z-index: 2147483647 !important; }
+#modal-backdrop{  z-index: 2147483646 !important; }
+[hidden]{ display: none !important; } /* ensure hidden attribute hides elements */
+</style>
+<style>
+/* Modal centering + backdrop coverage */
+#appointment-form{
+  position: fixed !important;
+  top: 50% !important; left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  max-width: 90% !important; max-height: 90% !important;
+  overflow-y: auto !important;
+  background: #fff !important;
+  border-radius: 10px !important;
+  padding: 20px !important;
+  z-index: 2147483647 !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,.35) !important;
+}
+#modal-backdrop{
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0,0,0,0.6) !important;
+  z-index: 2147483646 !important;
+}
+/* Graceful focus outline for accessibility */
+#appointment-form :focus{ outline: 2px solid #ea5a1f; outline-offset: 2px; }
+</style>
 
-<!-- VIDEO MODAL STYLES -->
+<!-- VIDEO MODAL STYLES (NEW) -->
 <style>
 #video-modal {
   position: fixed;
@@ -83,33 +117,20 @@
 }
 </style>
 
+<script>
+(function(){
+  try {
+    var isHTTP = location.protocol === 'http:';
+    var isLocal = /^(localhost|127\.0\.0\.1)$/i.test(location.hostname);
+    if (isHTTP && !isLocal) {
+      var target = 'https://' + location.host + location.pathname + location.search + location.hash;
+      location.replace(target);
+    }
+  } catch (e) {}
+})();
+</script>
 <style>
-#appointment-form{ z-index: 2147483647 !important; }
-#modal-backdrop{  z-index: 2147483646 !important; }
-[hidden]{ display: none !important; }
-</style>
-<style>
-#appointment-form{
-  position: fixed !important;
-  top: 50% !important; left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  max-width: 90% !important; max-height: 90% !important;
-  overflow-y: auto !important;
-  background: #fff !important;
-  border-radius: 10px !important;
-  padding: 20px !important;
-  z-index: 2147483647 !important;
-  box-shadow: 0 20px 60px rgba(0,0,0,.35) !important;
-}
-#modal-backdrop{
-  position: fixed !important;
-  inset: 0 !important;
-  background: rgba(0,0,0,0.6) !important;
-  z-index: 2147483646 !important;
-}
-#appointment-form :focus{ outline: 2px solid #ea5a1f; outline-offset: 2px; }
-</style>
-<style>
+/* Click/Tap hint on service cards */
 .service-image { position: relative; overflow: hidden; }
 .serviceList li:hover .hoverlink { display: block; }
 .serviceList li.report-card .hoverhint{
@@ -129,6 +150,7 @@
 @media (pointer: fine)   { .hoverhint .click { display:inline; } .hoverhint .tap { display:none; } }
 </style>
 <style>
+/* Hide the chain-link icon overlay but keep the hint */
 .serviceList li .service-image .hoverlink,
 .serviceList li:hover .service-image .hoverlink,
 .serviceList li.report-card .service-image .hoverlink,
@@ -140,6 +162,7 @@
 }
 .serviceList .hoverhint{ display:inline-block !important; }
 </style>
+<!-- Preload banner (mobile/tablet) to improve LCP -->
 <link rel="preload" as="image"
       imagesrcset="images/banner2-480.webp 480w, images/banner2-768.webp 768w"
       imagesizes="(max-width: 520px) 100vw, (max-width: 900px) 100vw">
@@ -147,6 +170,7 @@
       imagesrcset="images/banner2-480.jpg 480w, images/banner2-768.jpg 768w"
       imagesizes="(max-width: 520px) 100vw, (max-width: 900px) 100vw">
 <style>
+/* Serve smaller banner images on mobile/tablet without touching JS */
 @media (max-width: 520px){
   .banenr-section{
     background-image: image-set(
@@ -169,6 +193,7 @@
 }
 </style>
 <style>
+/* Simple, compatible banner background for phones/tablets */
 @media (max-width: 520px){
   .banenr-section{
     background-image: url("images/banner2-480.jpg") !important;
@@ -187,6 +212,7 @@
 }
 </style>
 <style>
+/* Modal for Insurance/Realtor cards only (full brightness, proper layering) */
 #docOverlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .18s ease;z-index:2147483647;}
 #docOverlay.open{opacity:1;visibility:visible;}
 #docOverlay .backdrop{position:absolute;inset:0;z-index:1;}
@@ -195,11 +221,15 @@
 body.noscroll{overflow:hidden!important;}
 </style>
 <style>
+/* Desktop: compactly match the heights of the TOP TWO service cards only */
 @media (min-width: 992px){
+  /* Layout the card body so spacing is tight and consistent */
   .serviceList:first-of-type .report-card .service-details{
     display: flex;
     flex-direction: column;
   }
+
+  /* Title: reserve exactly two lines so tier titles stay aligned */
   .serviceList:first-of-type .report-card .service-details h3,
   .serviceList:first-of-type .report-card .service-details h4{
     line-height: 1.25;
@@ -210,6 +240,8 @@ body.noscroll{overflow:hidden!important;}
     overflow: hidden;
     margin-bottom: 0.5rem;
   }
+
+  /* Description: clamp to two lines so the price doesn't get pushed way down */
   .serviceList:first-of-type .report-card .service-details p:first-of-type{
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -221,18 +253,6 @@ body.noscroll{overflow:hidden!important;}
   }
 }
 </style>
-<script>
-(function(){
-  try {
-    var isHTTP = location.protocol === 'http:';
-    var isLocal = /^(localhost|127\.0\.0\.1)$/i.test(location.hostname);
-    if (isHTTP && !isLocal) {
-      var target = 'https://' + location.host + location.pathname + location.search + location.hash;
-      location.replace(target);
-    }
-  } catch (e) {}
-})();
-</script>
 </head>
 <body>
 <!-- Overlay for the two doc cards -->
@@ -256,6 +276,7 @@ body.noscroll{overflow:hidden!important;}
 <!-- Header start -->
 <div class="header sticky">
 <div class="container">
+<!-- Row Rtart -->
 <div class="row">
 <div class="col-md-3 col-sm-3">
 <div class="logo"><img alt="SkySure Inspections logo" src="images/logo.png"/></div>
@@ -264,10 +285,12 @@ body.noscroll{overflow:hidden!important;}
 </div>
 </div>
 <div class="col-md-9 col-sm-9">
+<!--navegation-->
 <div class="navigationwrape">
 <div class="navbar navbar-default" role="navigation">
 <div class="navbar-collapse collapse">
 <ul class="nav navbar-nav">
+
 <li> <a href="#home"> Home</a></li>
 <li> <a href="#services"> Services</a></li>
 <li> <a href="roof-condition-report.html"> Roof Condition Report</a></li>
@@ -282,21 +305,24 @@ body.noscroll{overflow:hidden!important;}
 </div>
 </div>
 </div>
+<!-- Row End -->
+</div>
 </div>
 <!-- Header end -->
-
-<!-- HERO BANNER - CLEAN AND FOCUSED -->
 <section class="banenr-section" id="home">
 <div class="banner-content">
 <div class="caption lfl large-title tp-resizeme slidertext1">
   <span style="color: #ea5a1f;">SkySure Inspections</span>
 </div>
+
 <div class="caption lfb large-title tp-resizeme slidertext4" style="color:#fff;">
   Because What You Can't See, Can Cost You
 </div>
+
 <div class="caption lfb tp-resizeme slidertext4" style="color:#fff; font-size:16px; margin-top:12px; font-weight: 300; line-height: 1.5;">
   Most roof damage starts small and invisible. Annual monitoring catches expensive problems early — before they become $5,000–$15,000 repairs.
 </div>
+
 <div class="hero-cta-row">
   <a class="btn-secondary-cta" href="roof-condition-report.html">Learn More</a>
   <a class="btn-text-cta" href="tel:(980) 494-3993">Call/Text: (980) 494-3993</a>
@@ -304,59 +330,35 @@ body.noscroll{overflow:hidden!important;}
 </div>
 </section>
 
-<!-- VIDEO EDUCATION SECTION - SEPARATE, DEDICATED SPACE (OPTION A) -->
+<!-- VIDEO EDUCATION SECTION (OPTION A - SEPARATE SPACE) -->
 <section style="background: #f8f9fa; padding: 80px 20px; text-align: center;">
 <div class="container">
-  <div style="margin-bottom: 40px;">
-    <h2 style="font-size: 36px; color: #0e1f2f; margin-bottom: 10px; font-weight: 700;">Why Annual Roof Monitoring Matters</h2>
-    <p style="font-size: 16px; color: #6c7a89; max-width: 700px; margin: 0 auto;">See exactly what's happening with your roof — before small problems become expensive repairs.</p>
-  </div>
+  <h2 style="font-size: 36px; color: #0e1f2f; margin-bottom: 15px; font-weight: 700;">Why Annual Roof Monitoring Matters</h2>
+  <p style="font-size: 16px; color: #6c7a89; max-width: 700px; margin: 0 auto 40px;">See exactly what's happening with your roof — before small problems become expensive repairs.</p>
 
-  <!-- Video Buttons -->
   <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
-    <button class="video-trigger" data-video="problem" style="
-      padding: 14px 32px;
-      border: none;
-      background: #ea5a1f;
-      color: white;
-      font-size: 16px;
-      font-weight: 600;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.3s;
-    ">❌ The Problem</button>
-    <button class="video-trigger" data-video="solution" style="
-      padding: 14px 32px;
-      border: 2px solid #ea5a1f;
-      background: transparent;
-      color: #ea5a1f;
-      font-size: 16px;
-      font-weight: 600;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.3s;
-    ">✅ The Solution</button>
+    <button class="video-trigger" data-video="problem" style="padding: 14px 32px; border: none; background: #ea5a1f; color: white; font-size: 16px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.3s;">❌ The Problem</button>
+    <button class="video-trigger" data-video="solution" style="padding: 14px 32px; border: 2px solid #ea5a1f; background: transparent; color: #ea5a1f; font-size: 16px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.3s;">✅ The Solution</button>
   </div>
 
-  <!-- Video Description -->
-  <p style="font-size: 13px; color: #999; margin-bottom: 20px;">Click to watch (free educational videos)</p>
+  <p style="font-size: 13px; color: #999;">Click to watch (free educational videos)</p>
 </div>
 </section>
 
-<!-- THE NUMBERS THAT MATTER SECTION - PROOF -->
+<!-- NUMBERS SECTION -->
 <section id="numbers-section" style="background: white; padding: 80px 20px; text-align: center; border-top: 1px solid #e0e0e0;">
 <div class="container">
   <h2 style="font-size: 36px; color: #0e1f2f; margin-bottom: 60px; font-weight: 700;">The Numbers That Matter</h2>
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
-    <div style="padding: 20px;">
+  <div class="row">
+    <div class="col-md-4" style="padding: 20px;">
       <div style="font-size: 14px; color: #6c7a89; margin-bottom: 10px;">Average Roof Repair</div>
       <div style="font-size: 48px; font-weight: 700; color: #ea5a1f;">$8,000–$15,000</div>
     </div>
-    <div style="padding: 20px;">
+    <div class="col-md-4" style="padding: 20px;">
       <div style="font-size: 14px; color: #6c7a89; margin-bottom: 10px;">Annual Inspection Cost</div>
       <div style="font-size: 48px; font-weight: 700; color: #0e1f2f;">$100–$200</div>
     </div>
-    <div style="padding: 20px;">
+    <div class="col-md-4" style="padding: 20px;">
       <div style="font-size: 14px; color: #6c7a89; margin-bottom: 10px;">Time to ROI</div>
       <div style="font-size: 48px; font-weight: 700; color: #0e1f2f;">1 Problem</div>
       <div style="font-size: 14px; color: #6c7a89; margin-top: 5px;">= 5+ years of inspections</div>
@@ -365,12 +367,12 @@ body.noscroll{overflow:hidden!important;}
 </div>
 </section>
 
-<!-- SERVICES SECTION -->
-<div class="services-wrap" id="services">
+<!--Roof Condition Report Tiers start-->
+<div id="services" style="padding: 60px 0; background: white;">
 <div class="container">
 <div class="title">
   <span>Roof Condition Monitoring</span>
-  <h2>Roof Condition Report Tiers</h2>
+  <h2 style="margin-top:6px;">Roof Condition Report Tiers</h2>
   <p>Choose your monitoring frequency. Each visit includes high-resolution drone imagery, date-stamped documentation, and a clear summary of observable conditions.</p>
 </div>
 
@@ -378,9 +380,7 @@ body.noscroll{overflow:hidden!important;}
   <div class="col-md-4">
     <ul class="serviceList">
       <li class="report-card">
-        <div class="service-image">
-          <img alt="Annual Roof Condition Report" src="images/one.jpg" loading="lazy"/>
-        </div>
+        <div class="service-image"><img class="ri" loading="lazy" alt="Annual Roof Condition Report" src="images/one.jpg"/ data-src="images/one.jpg"></div>
         <div class="service-details">
           <h3>Annual</h3>
           <p>Best for proactive homeowners who want a yearly check-in and documented roof history.</p>
@@ -392,14 +392,10 @@ body.noscroll{overflow:hidden!important;}
       </li>
     </ul>
   </div>
-
   <div class="col-md-4">
     <ul class="serviceList">
-      <li class="report-card" style="position: relative;">
-        <div style="position: absolute; top: 10px; right: 10px; background: #ea5a1f; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">Most Popular</div>
-        <div class="service-image">
-          <img alt="Semi-Annual Roof Condition Report" src="images/two.jpg" loading="lazy"/>
-        </div>
+      <li class="report-card">
+        <div class="service-image"><img class="ri" loading="lazy" src="images/two.jpg" alt="Semi-Annual Roof Condition Report"/ data-src="images/two.jpg"></div>
         <div class="service-details">
           <h3>Semi-Annual</h3>
           <p>Two reports per year (spring/fall) to track changes across seasons and storms.</p>
@@ -411,13 +407,10 @@ body.noscroll{overflow:hidden!important;}
       </li>
     </ul>
   </div>
-
   <div class="col-md-4">
     <ul class="serviceList">
       <li class="report-card">
-        <div class="service-image">
-          <img alt="Quarterly Roof Condition Report" src="images/three.jpg" loading="lazy"/>
-        </div>
+        <div class="service-image"><img class="ri" loading="lazy" src="images/three.jpg" alt="Quarterly Roof Condition Report"/ data-src="images/three.jpg"></div>
         <div class="service-details">
           <h3>Quarterly</h3>
           <p>Four reports per year—ideal for aging roofs, heavy tree cover, or storm-prone areas.</p>
@@ -432,8 +425,9 @@ body.noscroll{overflow:hidden!important;}
 </div>
 </div>
 </div>
+<!--Roof Condition Report Tiers end-->
 
-<!-- ABOUT SECTION -->
+<!--About start-->
 <div class="about-wrap" id="about">
 <div class="container">
 <div class="row align-items-center">
@@ -442,62 +436,62 @@ body.noscroll{overflow:hidden!important;}
 <p>SkySure Inspections helps buyers, sellers, homeowners, and real estate agents gain confidence in the roof—one of the most expensive components of a home. Our drone-based Roof Condition Reports provide sharp, date-stamped imagery and a clear summary of observable conditions so you can plan maintenance, document changes over time, or share visuals with a contractor, insurer, or future buyer.</p>
 </div>
 <div class="col-md-5">
-<div class="about-image"><img class="ri" loading="lazy" alt="" src="images/feature-image-3.jpg"/></div>
+<div class="about-image"><img class="ri" loading="lazy" alt="" aria-hidden="true" role="presentation" src="images/feature-image-3.jpg"/ data-src="images/feature-image-3.jpg"></div>
 </div>
 </div>
 </div>
 </div>
+<!--About end-->
+<!-- Testimonials -->
+    <section class="testimonials" id="testimonials" aria-labelledby="skysure-testimonials-heading" style="padding: 60px 0; background:#f7f9fc;">
+      <div class="container">
+        <h2 id="skysure-testimonials-heading">What Homeowners & Partners Say</h2>
+        <p class="sub" style="color:#6c7a89;margin-bottom:20px;">Real feedback from families, buyers, and trade partners who've used SkySure Inspections.</p>
+        <div class="row">
+          <div class="col-md-4">
+            <blockquote style="background:#fff;border-left:4px solid #ea5a1f;border-radius:8px;padding:16px;min-height:140px;">
+              <span class="stars" aria-label="5 out of 5 stars">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+              </span>
+              "SkySure's drone photos revealed storm damage we never would have spotted from the ground. The report made our insurance claim straightforward."
+              <footer style="margin-top:10px;color:#6c7a89;">— Homeowner, Mooresville NC</footer>
+            </blockquote>
+          </div>
+          <div class="col-md-4">
+            <blockquote style="background:#fff;border-left:4px solid #ea5a1f;border-radius:8px;padding:16px;min-height:140px;">
+              <span class="stars" aria-label="5 out of 5 stars">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+              </span>
+              "The annual roof report gave me peace of mind. When we listed our home, I shared the PDF with buyers to show our roof was in great shape."
+              <footer style="margin-top:10px;color:#6c7a89;">— Home Seller, Cornelius NC</footer>
+            </blockquote>
+          </div>
+          <div class="col-md-4">
+            <blockquote style="background:#fff;border-left:4px solid #ea5a1f;border-radius:8px;padding:16px;min-height:140px;">
+              <span class="stars" aria-label="5 out of 5 stars">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+              </span>
+              "As a roofer, SkySure's clear damage documentation saves my team time and helps homeowners see exactly what needs attention."
+              <footer style="margin-top:10px;color:#6c7a89;">— Roofing Partner, Huntersville NC</footer>
+            </blockquote>
+          </div>
+        </div>
+      </section>
 
-<!-- TESTIMONIALS SECTION -->
-<section class="testimonials" id="testimonials" style="padding: 60px 0; background:#f7f9fc;">
-<div class="container">
-<h2>What Homeowners & Partners Say</h2>
-<p class="sub" style="color:#6c7a89;margin-bottom:20px;">Real feedback from families, buyers, and trade partners who've used SkySure Inspections.</p>
-<div class="row">
-  <div class="col-md-4">
-    <blockquote style="background:#fff;border-left:4px solid #ea5a1f;border-radius:8px;padding:16px;min-height:140px;">
-      <span class="stars" aria-label="5 out of 5 stars">
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-      </span>
-      "SkySure's drone photos revealed storm damage we never would have spotted from the ground. The report made our insurance claim straightforward."
-      <footer style="margin-top:10px;color:#6c7a89;">— Homeowner, Mooresville NC</footer>
-    </blockquote>
-  </div>
-  <div class="col-md-4">
-    <blockquote style="background:#fff;border-left:4px solid #ea5a1f;border-radius:8px;padding:16px;min-height:140px;">
-      <span class="stars" aria-label="5 out of 5 stars">
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-      </span>
-      "The annual roof report gave me peace of mind. When we listed our home, I shared the PDF with buyers to show our roof was in great shape."
-      <footer style="margin-top:10px;color:#6c7a89;">— Home Seller, Cornelius NC</footer>
-    </blockquote>
-  </div>
-  <div class="col-md-4">
-    <blockquote style="background:#fff;border-left:4px solid #ea5a1f;border-radius:8px;padding:16px;min-height:140px;">
-      <span class="stars" aria-label="5 out of 5 stars">
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-        <i class="fa fa-star" aria-hidden="true"></i>
-      </span>
-      "As a roofer, SkySure's clear damage documentation saves my team time and helps homeowners see exactly what needs attention."
-      <footer style="margin-top:10px;color:#6c7a89;">— Roofing Partner, Huntersville NC</footer>
-    </blockquote>
-  </div>
-</div>
-</section>
-
-<!-- FAQ SECTION -->
-<div id="faq" style="padding: 60px 0; background: #fff;">
+<!--FAQ start-->
+<div id="faq" style="padding: 60px 0; background: white;">
 <div class="container">
 <div class="title">
   <h2>Frequently Asked Questions</h2>
@@ -536,8 +530,9 @@ body.noscroll{overflow:hidden!important;}
   <a href="faq.html" style="display: inline-block; padding: 12px 30px; background: #ea5a1f; color: white; text-decoration: none; border-radius: 6px; font-weight: 600;">See All FAQs</a>
 </div>
 </div>
+<!--FAQ end-->
 
-<!-- FOOTER -->
+<!-- Footer -->
 <footer style="background: #0e1f2f; color: white; padding: 40px 0; text-align: center;">
 <div class="container">
 <div style="margin-bottom: 30px;">
@@ -558,7 +553,7 @@ body.noscroll{overflow:hidden!important;}
 </div>
 </footer>
 
-<!-- VIDEO MODAL FUNCTIONALITY -->
+<!-- VIDEO MODAL SCRIPT -->
 <script>
 (function(){
   var modal = document.getElementById('video-modal');
@@ -585,7 +580,6 @@ body.noscroll{overflow:hidden!important;}
     modalVideo.currentTime = 0;
     document.body.style.overflow = '';
     
-    // Auto-scroll to "The Numbers That Matter" section
     setTimeout(function(){
       var numbersSection = document.getElementById('numbers-section');
       if(numbersSection){
@@ -615,7 +609,19 @@ body.noscroll{overflow:hidden!important;}
 })();
 </script>
 
-<!-- FAQ ACCORDION FUNCTIONALITY -->
+<script>
+(function(){
+  try {
+    var isHTTP = location.protocol === 'http:';
+    var isLocal = /^(localhost|127\.0\.0\.1)$/i.test(location.hostname);
+    if (isHTTP && !isLocal) {
+      var target = 'https://' + location.host + location.pathname + location.search + location.hash;
+      location.replace(target);
+    }
+  } catch (e) {}
+})();
+</script>
+
 <script>
 (function(){
   function initFAQ(){
@@ -638,7 +644,6 @@ body.noscroll{overflow:hidden!important;}
 })();
 </script>
 
-<!-- FORMSPREE FORM HANDLER -->
 <script>
 (function () {
   function onReady(fn){
