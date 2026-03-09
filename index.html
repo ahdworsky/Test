@@ -37,6 +37,11 @@
 .header { 
   padding: 3px 0 !important; 
 }
+.header .container {
+  display: flex !important;
+  width: 100% !important;
+  align-items: center;
+}
 .logo img { 
   max-height: 30px !important; 
   height: 30px !important;
@@ -44,17 +49,25 @@
 .navbar { 
   margin: 0 !important; 
   padding: 0 !important; 
+  width: 100% !important;
 }
 .navbar-default {
   margin: 0 !important;
   padding: 3px 0 !important;
   min-height: 45px;
+  background: transparent !important;
+  border: none !important;
 }
 .nav.navbar-nav {
   margin: 0 !important;
+  width: 100% !important;
+  display: flex !important;
+  justify-content: space-between !important;
 }
 .nav.navbar-nav li {
   line-height: 45px;
+  flex: 1;
+  text-align: center;
 }
 </style>
 <style>
@@ -377,47 +390,47 @@ body.noscroll{overflow:hidden!important;}
 <!-- VIDEO EDUCATION SECTION - NOW FIRST CONTENT (MOVED UP) -->
 <section id="home" style="background: #f8f9fa; padding: 80px 20px 30px 20px; text-align: center; margin-top: 50px;">
 <div class="container">
-  <h2 style="font-size: 28px; color: #0e1f2f; margin-bottom: 15px; font-weight: 700;">Why Annual Roof Monitoring Matters</h2>
+  <h2 style="font-size: 42px; color: #0e1f2f; margin-bottom: 20px; font-weight: 700;">Why Annual Roof Monitoring Matters</h2>
   
-  <p style="font-size: 13px; color: #6c7a89; max-width: 100%; margin: 0 auto 25px; white-space: nowrap;">See exactly what's happening with your roof — before small problems become expensive repairs.</p>
+  <p style="font-size: 18px; color: #6c7a89; max-width: 100%; margin: 0 auto 35px; white-space: nowrap;">See exactly what's happening with your roof — before small problems become expensive repairs.</p>
 
   <!-- NUMBERS (PAIN POINT) -->
-  <div class="row" style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 25px;">
+  <div class="row" style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 35px;">
     <div style="text-align: center;">
-      <div style="font-size: 12px; color: #6c7a89; margin-bottom: 5px;">Average Roof Repair</div>
-      <div style="font-size: 32px; font-weight: 700; color: #ea5a1f;">$8,000–$15,000</div>
+      <div style="font-size: 16px; color: #6c7a89; margin-bottom: 8px;">Average Roof Repair</div>
+      <div style="font-size: 44px; font-weight: 700; color: #ea5a1f;">$8,000–$15,000</div>
     </div>
     <div style="text-align: center;">
-      <div style="font-size: 12px; color: #6c7a89; margin-bottom: 5px;">Annual Inspection Cost</div>
-      <div style="font-size: 32px; font-weight: 700; color: #0e1f2f;">$100–$200</div>
+      <div style="font-size: 16px; color: #6c7a89; margin-bottom: 8px;">Annual Inspection Cost</div>
+      <div style="font-size: 44px; font-weight: 700; color: #0e1f2f;">$100–$200</div>
     </div>
     <div style="text-align: center;">
-      <div style="font-size: 12px; color: #6c7a89; margin-bottom: 5px;">Time to ROI</div>
-      <div style="font-size: 32px; font-weight: 700; color: #0e1f2f;">1 Problem</div>
-      <div style="font-size: 11px; color: #6c7a89; margin-top: 3px;">= 5+ years of inspections</div>
+      <div style="font-size: 16px; color: #6c7a89; margin-bottom: 8px;">Time to ROI</div>
+      <div style="font-size: 44px; font-weight: 700; color: #0e1f2f;">1 Problem</div>
+      <div style="font-size: 14px; color: #6c7a89; margin-top: 5px;">= 5+ years of inspections</div>
     </div>
   </div>
 
   <!-- VIDEO BUTTONS -->
-  <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px;">
-    <button class="video-trigger" data-video="problem" style="padding: 10px 24px; border: none; background: #ea5a1f; color: white; font-size: 14px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.3s;">❌ The Problem</button>
-    <button class="video-trigger" data-video="solution" style="padding: 10px 24px; border: 2px solid #ea5a1f; background: transparent; color: #ea5a1f; font-size: 14px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.3s;">✅ The Solution</button>
+  <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 15px;">
+    <button class="video-trigger" data-video="problem" style="padding: 14px 32px; border: none; background: #ea5a1f; color: white; font-size: 16px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.3s;">❌ The Problem</button>
+    <button class="video-trigger" data-video="solution" style="padding: 14px 32px; border: 2px solid #ea5a1f; background: transparent; color: #ea5a1f; font-size: 16px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.3s;">✅ The Solution</button>
   </div>
 
-  <p style="font-size: 11px; color: #999; margin-bottom: 12px;">Click to watch (free educational videos)</p>
+  <p style="font-size: 14px; color: #999; margin-bottom: 15px;">Click to watch (free educational videos)</p>
 
   <!-- Have Questions Button -->
   <div>
-    <button class="js-open-info" style="padding: 9px 22px; border: 1px solid #ea5a1f; background: transparent; color: #ea5a1f; font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.3s;">Have Questions?</button>
+    <button class="js-open-info" style="padding: 12px 28px; border: 1px solid #ea5a1f; background: transparent; color: #ea5a1f; font-size: 15px; font-weight: 600; border-radius: 6px; cursor: pointer; transition: all 0.3s;">Have Questions?</button>
   </div>
 </div>
 </section>
 
 <!--Roof Condition Report Tiers start-->
-<div id="services" style="padding: 60px 0; background: white;">
+<div id="services" style="padding: 60px 0; background: white; margin-top: 40px; border-top: 1px solid #e0e0e0;">
 <div class="container">
 <div class="title">
-  <span>Roof Condition Monitoring</span>
+  <span></span>
   <h2 style="margin-top:6px;">Roof Condition Report Tiers</h2>
   <p>Choose your monitoring frequency. Each visit includes high-resolution drone imagery, date-stamped documentation, and a clear summary of observable conditions.</p>
 </div>
