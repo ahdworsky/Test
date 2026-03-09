@@ -37,19 +37,28 @@
 .header { 
   padding: 3px 0 !important; 
 }
-.header .container {
+.header .row {
   display: flex !important;
-  width: 100% !important;
-  align-items: center;
+  align-items: center !important;
+}
+.header .col-md-3 {
+  flex: 0 0 auto !important;
+}
+.header .col-md-9 {
+  flex: 1 !important;
 }
 .logo img { 
   max-height: 30px !important; 
   height: 30px !important;
 }
+.navigationwrape {
+  width: 100% !important;
+}
 .navbar { 
   margin: 0 !important; 
   padding: 0 !important; 
-  width: 100% !important;
+  background: transparent !important;
+  border: none !important;
 }
 .navbar-default {
   margin: 0 !important;
@@ -58,16 +67,34 @@
   background: transparent !important;
   border: none !important;
 }
+.navbar-collapse {
+  padding: 0 !important;
+}
 .nav.navbar-nav {
   margin: 0 !important;
-  width: 100% !important;
   display: flex !important;
-  justify-content: space-between !important;
+  width: 100% !important;
+  justify-content: flex-start !important;
+  gap: 20px !important;
 }
 .nav.navbar-nav li {
   line-height: 45px;
-  flex: 1;
-  text-align: center;
+  flex: 0 0 auto !important;
+  margin: 0 !important;
+}
+.nav.navbar-nav li a {
+  padding: 0 10px !important;
+  font-size: 14px !important;
+}
+.nav.navbar-nav li:last-child {
+  margin-left: auto !important;
+  background: #ea5a1f !important;
+  padding: 8px 20px !important;
+  border-radius: 4px !important;
+}
+.nav.navbar-nav li:last-child a {
+  color: white !important;
+  font-weight: 600 !important;
 }
 </style>
 <style>
@@ -427,7 +454,7 @@ body.noscroll{overflow:hidden!important;}
 </section>
 
 <!--Roof Condition Report Tiers start-->
-<div id="services" style="padding: 60px 0; background: white; margin-top: 40px; border-top: 1px solid #e0e0e0;">
+<div id="services" style="padding: 60px 0; background: white; margin-top: 150px; border-top: 1px solid #e0e0e0;">
 <div class="container">
 <div class="title">
   <span></span>
