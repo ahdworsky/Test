@@ -49,8 +49,35 @@
   flex: 1 !important;
 }
 .logo img { 
-  max-height: 35px !important; 
-  height: 35px !important;
+  max-height: 50px !important; 
+  height: 50px !important;
+  width: auto !important;
+}
+.header .col-md-3 {
+  flex: 0 0 auto !important;
+  display: flex !important;
+  align-items: center !important;
+  height: 70px !important;
+}
+@media (max-width: 768px) {
+  .header .row {
+    height: auto !important;
+  }
+  .header .col-md-3 {
+    height: auto !important;
+    padding: 5px 10px !important;
+  }
+  .logo img {
+    max-height: 45px !important;
+    height: 45px !important;
+  }
+  #home h2 {
+    font-size: 28px !important;
+    line-height: 1.2 !important;
+  }
+  #home p {
+    font-size: 14px !important;
+  }
 }
 .navigationwrape {
   width: 100% !important;
@@ -434,7 +461,7 @@ body.noscroll{overflow:hidden!important;}
 <div class="container">
   <h2 style="font-size: 42px; color: #0e1f2f; margin-bottom: 20px; font-weight: 700;">Why Annual Roof Monitoring Matters</h2>
   
-  <p style="font-size: 18px; color: #6c7a89; max-width: 100%; margin: 0 auto 35px; white-space: nowrap;">See exactly what's happening with your roof — before small problems become expensive repairs.</p>
+  <p style="font-size: 18px; color: #6c7a89; max-width: 100%; margin: 0 auto 35px; word-wrap: break-word; overflow-wrap: break-word;">See exactly what's happening with your roof — before small problems become expensive repairs.</p>
 
   <!-- NUMBERS (PAIN POINT) -->
   <div class="row" style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 35px;">
