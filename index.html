@@ -62,10 +62,30 @@
 @media (max-width: 768px) {
   .header .row {
     height: auto !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
   }
   .header .col-md-3 {
     height: auto !important;
-    padding: 5px 10px !important;
+    padding: 5px 0 !important;
+    flex: 1 !important;
+    text-align: center !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .header .col-md-9 {
+    display: none !important;
+  }
+  .navbar-header {
+    display: flex !important;
+    align-items: center !important;
+  }
+  .navbar-toggle {
+    position: absolute !important;
+    right: 15px !important;
+    margin: 0 !important;
   }
   .logo img {
     max-height: 45px !important;
