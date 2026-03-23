@@ -305,6 +305,31 @@
                                                                                                                                                                               });
                                                                                                                                                                                   })();
     
+                                                                                                                                                                                  // ---------- Have Questions? Contact Form Modal ----------
+                                                                                                                                                                                  (function(){
+                                                                                                                                                                                    var backdrop = document.getElementById('request-info-backdrop');
+                                                                                                                                                                                      var form     = document.getElementById('request-info-form');
+                                                                                                                                                                                        var openBtn  = document.getElementById('have-questions-btn');
+                                                                                                                                                                                          var closeBtn = document.querySelector('.close-info-btn');
+                                                                                                                                                                                            if(!backdrop || !form || !openBtn) return;
+
+                                                                                                                                                                                              function openForm(){
+                                                                                                                                                                                                  backdrop.style.display = 'block';
+                                                                                                                                                                                                      form.style.display     = 'block';
+                                                                                                                                                                                                          document.body.style.overflow = 'hidden';
+                                                                                                                                                                                                            }
+                                                                                                                                                                                                              function closeForm(){
+                                                                                                                                                                                                                  backdrop.style.display = 'none';
+                                                                                                                                                                                                                      form.style.display     = 'none';
+                                                                                                                                                                                                                          document.body.style.overflow = '';
+                                                                                                                                                                                                                            }
+
+                                                                                                                                                                                                                              openBtn.addEventListener('click', openForm);
+                                                                                                                                                                                                                                if(closeBtn) closeBtn.addEventListener('click', closeForm);
+                                                                                                                                                                                                                                  backdrop.addEventListener('click', function(e){
+                                                                                                                                                                                                                                      if(e.target === backdrop) closeForm();
+                                                                                                                                                                                                                                        });
+                                                                                                                                                                                                                                        })();
     // ---------- FAQ Toggle (single source of truth; home + roof report) ----------
     (function(){
       function closest(el, sel){
