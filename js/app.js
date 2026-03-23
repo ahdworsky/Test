@@ -277,6 +277,33 @@
     window.openSnapshotGallery = function(i){ openImageLightbox(SNAPSHOT_LIST, i||0); };
     window.openReportGallery   = function(i){ if(REPORT_LIST && REPORT_LIST.length>1) openImageLightbox(REPORT_LIST, i||0); else openImageLightbox('images/two.jpg', 0); };
 
+        // ---------- Problem/Solution Video Modal ----------
+            (function(){
+                  var videoModal  = document.getElementById('video-modal');
+                        var videoEl     = document.getElementById('modal-video');
+                              var videoSource = videoEl ? videoEl.querySelector('source') : null;
+
+                                    document.addEventListener('click', function(e){
+                                            var btn = e.target && e.target.closest ? e.target.closest('.video-trigger') : null;
+                                                    if(!btn) return;
+                                                            var key = btn.getAttribute('data-video');
+                                                                    if(!key || !videoModal || !videoEl) return;
+                                                                            if(videoSource) videoSource.src = 'videos/' + key + '.mp4';
+                                                                                    videoEl.load();
+                                                                                            videoModal.style.display = 'flex';
+                                                                                                    document.body.style.overflow = 'hidden';
+                                                                                                            videoEl.play();
+                                                                                                                  });
+
+                                                                                                                        document.addEventListener('click', function(e){
+                                                                                                                                if(!videoModal || videoModal.style.display === 'none') return;
+                                                                                                                                        var isClose = e.target && (e.target.classList.contains('close-btn') || e.target === videoModal);
+                                                                                                                                                if(!isClose) return;
+                                                                                                                                                        videoModal.style.display = 'none';
+                                                                                                                                                                document.body.style.overflow = '';
+                                                                                                                                                                        if(videoEl){ videoEl.pause(); videoEl.currentTime = 0; }
+                                                                                                                                                                              });
+                                                                                                                                                                                  })();
     
     // ---------- FAQ Toggle (single source of truth; home + roof report) ----------
     (function(){
