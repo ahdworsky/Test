@@ -395,3 +395,93 @@
 console.log('[app.js] loaded: modals + galleries wired');
   });
 })();
+
+// ---------- Responsive Image Swap (ri class) ----------
+(function () {
+  function pickSize() { var w = Math.min(window.innerWidth||0, screen.width||0); if (w<=520) return 480; if (w<=900) return 768; return 0; }
+    function makeCandidates(src, size) { var dot = src.lastIndexOf('.'); if (dot<0) return []; var base = src.slice(0,dot); var ext = src.slice(dot+1).toLowerCase(); return [base+'-'+size+'.webp', base+'-'+size+'.'+ext]; }
+      function preload(url){ return new Promise(function(res,rej){ var i=new Image(); i.onload=function(){res(url)}; i.onerror=rej; i.src=url; }); }
+        function swap(img,url){ img.setAttribute('data-src-original', img.src); img.src=url; }
+          function trySwap(img,size){ var src=img.getAttribute('data-src')||img.src; var c=makeCandidates(src,size); preload(c[0]).then(function(){swap(img,c[0])}).catch(function(){preload(c[1]).then(function(){swap(img,c[1])}).catch(function(){})}); }
+            function init(){ var s=pickSize(); if(!s) return; var imgs=document.querySelectorAll('img.ri'); for(var i=0;i<imgs.length;i++) trySwap(imgs[i],s); }
+              if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', init); } else { init(); }
+                window.addEventListener('orientationchange', function(){ init(); });
+                })();
+
+                // ---------- requestIdleCallback wrapper ----------
+                (function(){
+                  function run(){ try { /* move heavy init here if needed */ } catch(e){} }
+                    if ('requestIdleCallback' in window) {
+                        window.addEventListener('load', function(){ requestIdleCallback(run, {timeout: 2000}); });
+                          } else {
+                              window.addEventListener('load', function(){ setTimeout(run, 600); });
+                                }
+                                })();
+
+                                // ---------- Touch/Pointer Tap Handler ----------
+                                (function(){
+                                  var hasTouch = window.matchMedia && window.matchMedia('(hover: none)').matches;
+                                    if (!hasTouch) return;
+                                      var DOWN = {};
+                                        function now(){ return (performance && performance.now) ? performance.now() : Date.now(); }
+                                          function dist(a,b){ var dx=a.x-b.x, dy=a.y-b.y; return Math.sqrt(dx*dx+dy*dy); }
+                                            var MAX_MOVE=10, MAX_TIME=450, MAX_SCROLL=8;
+                                              function onPointerDown(e){ if (e.pointerType && e.pointerType !== 'touch') return; var t=e.target, card=t.closest && t.closest('li.report-card, .report-card'); if (!card) return; DOWN[e.pointerId||0]={t:now(),x:e.clientX,y:e.clientY,sy:window.pageYOffset||document.documentElement.scrollTop||0,card:card}; }
+                                                function onPointerUp(e){ if (e.pointerType && e.pointerType !== 'touch') return; var rec=DOWN[e.pointerId||0]; delete DOWN[e.pointerId||0]; if(!rec) return; var dur=now()-rec.t, mv=dist({x:e.clientX,y:e.clientY},{x:rec.x,y:rec.y}); var sdy=Math.abs((window.pageYOffset||document.documentElement.scrollTop||0)-rec.sy); if (dur>MAX_TIME || mv>MAX_MOVE || sdy>MAX_SCROLL) return; e.preventDefault(); e.stopPropagation(); try { rec.card.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,view:window})); } catch(_) { rec.card.click && rec.card.click(); } if (window.jQuery) { try { window.jQuery(rec.card).trigger('click'); } catch(_){} } }
+                                                  if (window.PointerEvent) {
+                                                      document.addEventListener('pointerdown', onPointerDown, {capture:true, passive:true});
+                                                          document.addEventListener('pointerup', onPointerUp, {capture:true, passive:false});
+                                                            } else {
+                                                                document.addEventListener('touchstart', function(e){ var t=e.changedTouches[0]; if(!t) return; onPointerDown({pointerId:0, clientX:t.clientX, clientY:t.clientY, target:e.target, pointerType:'touch'}); }, {capture:true, passive:true});
+                                                                    document.addEventListener('touchend', function(e){ var t=e.changedTouches[0]; if(!t) return; onPointerUp({pointerId:0, clientX:t.clientX, clientY:t.clientY, target:e.target, pointerType:'touch', preventDefault:function(){e.preventDefault();}, stopPropagation:function(){e.stopPropagation();}}); }, {capture:true, passive:false});
+                                                                      }
+                                                                      })();
+
+                                                                      // ---------- docOverlay (Insurance/Realtor card image viewer) ----------
+                                                                      (function(){
+                                                                        var $ov, $img, $close, $backdrop;
+                                                                          function q(s, c){ return (c||document).querySelector(s); }
+                                                                            function ready(f){ if(document.readyState!=='loading') f(); else document.addEventListener('DOMContentLoaded', f); }
+                                                                              function matchCard(t){ var li = t.closest ? t.closest('.report-card[data-action="image"]') : null; if (!li) return null; var url = li.getAttribute('data-src') || ''; return /insurance-claim|realtor-addon/i.test(url) ? url : null; }
+                                                                                function openOverlay(url){ try { url = new URL(url, location.href).href; } catch(e){} var probe = new Image(); probe.onload = function(){ document.body.classList.add('noscroll'); $img.src = url; $ov.classList.add('open'); $ov.setAttribute('aria-hidden', 'false'); }; probe.onerror = function(){ window.open(url, '_blank', 'noopener'); }; probe.src = url; }
+                                                                                  function closeOverlay(){ $ov.classList.remove('open'); $ov.setAttribute('aria-hidden', 'true'); document.body.classList.remove('noscroll'); $img.removeAttribute('src'); }
+                                                                                    function onClick(e){ var url = matchCard(e.target); if (!url) return; e.preventDefault(); e.stopPropagation(); openOverlay(url); }
+                                                                                      function onKey(e){ if (e.key === 'Escape') closeOverlay(); }
+                                                                                        function onBackdrop(e){ if (e.target === $backdrop || e.target === $close) closeOverlay(); }
+                                                                                          ready(function(){
+                                                                                              $ov = q('#docOverlay'); $img = q('#docOverlay .doc-img'); $close = q('#docOverlay .close'); $backdrop = q('#docOverlay .backdrop');
+                                                                                                  document.addEventListener('click', onClick, {capture:true});
+                                                                                                      document.addEventListener('keydown', onKey);
+                                                                                                          $ov.addEventListener('click', onBackdrop);
+                                                                                                            });
+                                                                                                            })();
+
+                                                                                                            // ---------- Formspree Submit Handler ----------
+                                                                                                            (function () {
+                                                                                                              function onReady(fn){ if (document.readyState !== 'loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
+                                                                                                                onReady(function () {
+                                                                                                                    var form = document.getElementById('inspection-form');
+                                                                                                                        if (!form) return;
+                                                                                                                            var msgEl = document.getElementById('form-message');
+                                                                                                                                var submitBtn = document.getElementById('submit-btn');
+                                                                                                                                    var THANK_YOU_URL = 'https://www.skysureinspections.com/thank-you/';
+                                                                                                                                        form.addEventListener('submit', async function (e) {
+                                                                                                                                              e.preventDefault(); e.stopPropagation();
+                                                                                                                                                    if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+                                                                                                                                                          if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Submitting...'; }
+                                                                                                                                                                if (msgEl) { msgEl.classList.remove('sr-only'); msgEl.textContent = ''; }
+                                                                                                                                                                      try {
+                                                                                                                                                                              var formData = new FormData(form);
+                                                                                                                                                                                      var res = await fetch(form.action, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
+                                                                                                                                                                                              if (res.ok) { window.location.assign(THANK_YOU_URL); return; }
+                                                                                                                                                                                                      var errText = 'Sorry — something went wrong submitting the form. Please try again or call/text us.';
+                                                                                                                                                                                                              try { var data = await res.json(); if (data && data.errors && data.errors.length && data.errors[0].message) { errText = data.errors[0].message; } } catch (_) {}
+                                                                                                                                                                                                                      if (msgEl) msgEl.textContent = errText;
+                                                                                                                                                                                                                            } catch (err) {
+                                                                                                                                                                                                                                    if (msgEl) msgEl.textContent = 'Network error — please check your connection and try again.';
+                                                                                                                                                                                                                                          } finally {
+                                                                                                                                                                                                                                                  if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Submit'; }
+                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                            });
+                                                                                                                                                                                                                                                              });
+                                                                                                                                                                                                                                                              })();
