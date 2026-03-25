@@ -488,16 +488,16 @@ body.noscroll{overflow:hidden!important;}
 <!--page scroll start-->
 <div class="page-scroll scrollToTop"><a href="#"><i aria-hidden="true" class="fa fa-arrow-up"></i></a></div>
 <!--page scroll start-->
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script defer src="js/jquery-2.1.4.min.js"></script>
+<!-- Vanilla JS — no jQuery dependency -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script defer src="js/bootstrap.min.js"></script>
+
 <!-- Load JS siles -->
 <!-- SLIDER REVOLUTION SCRIPTS  -->
-<script defer src="js/jquery.themepunch.tools.min.js" type="text/javascript"></script>
-<script defer src="js/jquery.themepunch.revolution.min.js" type="text/javascript"></script>
+
+
 <!-- general script file -->
-<script defer src="js/owl.carousel.js"></script>
+
 <script defer src="js/script.js" type="text/javascript"></script>
 <script defer src="js/custom.js"></script>
 <!-- Report Lightbox -->
@@ -624,7 +624,7 @@ body.noscroll{overflow:hidden!important;}
     if (dur>MAX_TIME || mv>MAX_MOVE || sdy>MAX_SCROLL) return;
     e.preventDefault(); e.stopPropagation();
     try { rec.card.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,view:window})); } catch(_) { rec.card.click && rec.card.click(); }
-    if (window.jQuery) { try { window.jQuery(rec.card).trigger('click'); } catch(_){} }
+   
   }
   if (window.PointerEvent) {
     document.addEventListener('pointerdown', onPointerDown, {capture:true, passive:true});
@@ -688,41 +688,46 @@ body.noscroll{overflow:hidden!important;}
 
 <script>
 (function(){
-  function headerOffset(){
-    var $ = window.jQuery;
-    var h = 0;
-    var parts = $('.header:visible, .navbar:visible, header:visible, .navigation:visible');
-    parts.each(function(){ h = Math.max(h, $(this).outerHeight() || 0); });
-    if(!h || h < 50) h = 70; // fallback
-    if(window.matchMedia && window.matchMedia('(max-width: 991px)').matches) h += 30;
-    return h;
-  }
-  function smoothScrollTo($target){
-    var $ = window.jQuery; if(!$target.length) return;
-    var top = $target.offset().top - headerOffset();
-    $('html, body').stop(true).animate({scrollTop: Math.max(0, top)}, 320);
-  }
-  function setupFAQAnchor(){
-    var $ = window.jQuery; if(!$) return;
-    var $coll = $('.navbar-collapse');
-    $(document).on('click', 'a[href="#faq"], a[href="#FAQ"]', function(e){
-      e.preventDefault();
-      var go = function(){ smoothScrollTo($('#faq')); };
-      if($coll.length && $coll.hasClass('in')){
-        $coll.one('hidden.bs.collapse', function(){ setTimeout(go, 10); });
-        $coll.collapse('hide');
-      } else {
-        go();
-      }
-    });
-    // If landing with #faq in URL
-    if(location.hash && location.hash.toLowerCase() === '#faq'){
-      setTimeout(function(){ smoothScrollTo($('#faq')); }, 60);
-    }
-  }
-  if(document.readyState !== 'loading') setupFAQAnchor();
-  else document.addEventListener('DOMContentLoaded', setupFAQAnchor);
-})();
+  /* ===== Navbar toggle + smooth scroll to FAQ ===== */
+    function getHeaderHeight(){
+        var h = 0;
+            document.querySelectorAll('.navbar, header, .header, .navigation-wrap').forEach(function(el){
+                  if(el.offsetParent !== null) h = Math.max(h, el.offsetHeight || 0);
+                      });
+                          if(!h || h < 50) h = 70;
+                              if(window.matchMedia && window.matchMedia('(max-width: 991px)').matches) h = Math.max(h, 55);
+                                  return h;
+                                    }
+                                      function smoothScrollTo(target){
+                                          if(!target) return;
+                                              var top = target.getBoundingClientRect().top + window.pageYOffset - getHeaderHeight();
+                                                  window.scrollTo({top: Math.max(0, top), behavior: 'smooth'});
+                                                    }
+                                                      function setupFAQAnchor(){
+                                                          var coll = document.querySelector('.navbar-collapse');
+                                                              document.addEventListener('click', function(e){
+                                                                    var a = e.target && e.target.closest ? e.target.closest('a[href="#faq"], a[href="#FAQ"]') : null;
+                                                                          if(!a) return;
+                                                                                e.preventDefault();
+                                                                                      var faqEl = document.getElementById('faq') || document.getElementById('rcr-faq');
+                                                                                            if(!faqEl) return;
+                                                                                                  if(coll && coll.classList.contains('in')){
+                                                                                                          coll.classList.remove('in');
+                                                                                                                  coll.classList.add('collapse');
+                                                                                                                          setTimeout(function(){ smoothScrollTo(faqEl); }, 10);
+                                                                                                                                } else {
+                                                                                                                                        smoothScrollTo(faqEl);
+                                                                                                                                              }
+                                                                                                                                                  });
+                                                                                                                                                      if(location.hash && location.hash.toLowerCase() === '#faq'){
+                                                                                                                                                            var faqEl = document.getElementById('faq') || document.getElementById('rcr-faq');
+                                                                                                                                                                  if(faqEl) setTimeout(function(){ smoothScrollTo(faqEl); }, 60);
+                                                                                                                                                                      }
+                                                                                                                                                                        }
+                                                                                                                                                                          if(document.readyState !== 'loading') setupFAQAnchor();
+                                                                                                                                                                            else document.addEventListener('DOMContentLoaded', setupFAQAnchor);
+                                                                                                                                                                            })();
+                                                                                                                                                                            </script>>
 </script><script type="application/ld+json">
 {
   "@context": "https://schema.org",

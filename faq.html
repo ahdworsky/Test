@@ -135,81 +135,86 @@
     </div>
   </section>
 
-  <script src="js/jquery-2.1.4.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
   <script>
   (function(){
-    function initFAQ(){
-      var $ = window.jQuery; if(!$) return;
-      var $root = $('#skysure-faq');
-      if(!$root.length) return;
-      var $headers = $root.find('.faqs-service h4');
-      var speed = 200;
-
-      $headers.removeClass('active').attr('aria-expanded','false').next('p').hide();
-
-      function activate($h){
-        var $p = $h.next('p');
-        var open = $h.hasClass('active');
-        $headers.filter('.active').not($h).removeClass('active').attr('aria-expanded','false').next('p').slideUp(speed);
-        if(open){
-          $h.removeClass('active').attr('aria-expanded','false');
-          $p.slideUp(speed);
-        } else {
-          $h.addClass('active').attr('aria-expanded','true');
-          $p.slideDown(speed);
-        }
-      }
-
-      $headers.on('click', function(){ activate($(this)); });
-      $headers.on('keydown', function(e){
-        if(e.key === 'Enter' || e.key === ' '){
-          e.preventDefault(); activate($(this));
-        }
-      });
-    }
-    if(document.readyState !== 'loading') { initFAQ(); }
-    else { document.addEventListener('DOMContentLoaded', initFAQ); }
-  })();
-</script>
-  <script>
-(function(){
-  function getOffset(){
-    var $ = window.jQuery;
-    var h = 0;
-    var cand = $('.navbar:visible, header:visible, .header:visible, .navigation:visible, .main-nav:visible');
-    cand.each(function(){ h = Math.max(h, $(this).outerHeight() || 0); });
-    if(!h || h < 50) h = 70;
-    if(window.matchMedia && window.matchMedia('(max-width: 991px)').matches) h += 30;
-    return h;
-  }
-  function smoothScrollTo($target){
-    var $ = window.jQuery; if(!$target.length) return;
-    var top = $target.offset().top - getOffset();
-    $('html, body').stop(true).animate({scrollTop: Math.max(0, top)}, 300);
-  }
-  function setup(){
-    var $ = window.jQuery; if(!$) return;
-    var $coll = $('.navbar-collapse');
-    $(document).on('click', 'a[href="#faq"], a[href="#FAQ"]', function(ev){
-      var isOpen = $coll.length && $coll.hasClass('in');
-      ev.preventDefault();
-      var $target = $('#faq');
-      if(isOpen){
-        $coll.one('hidden.bs.collapse', function(){ setTimeout(function(){ smoothScrollTo($target); }, 10); });
-        $coll.collapse('hide');
-      } else {
-        smoothScrollTo($target);
-      }
-    });
-    if(location.hash && location.hash.toLowerCase() === '#faq'){
-      setTimeout(function(){ smoothScrollTo($('#faq')); }, 50);
-    }
-  }
-  if(document.readyState !== 'loading') setup();
-  else document.addEventListener('DOMContentLoaded', setup);
-})();
-</script>
+    /* ===== FAQ accordion (vanilla JS) ===== */
+      function closest(el, sel){
+          while(el && el !== document){ if(el.matches && el.matches(sel)) return el; el = el.parentNode; }
+              return null;
+                }
+                  function initFAQ(){
+                      if(document.documentElement.dataset.faqBound === '1') return;
+                          document.documentElement.dataset.faqBound = '1';
+                              document.addEventListener('click', function(e){
+                                    var h = closest(e.target, '.faqs-service h4');
+                                          if(!h) return;
+                                                var li = closest(h, '.faqs-service li');
+                                                      if(!li) return;
+                                                            var scope = closest(li, '#skysure-faq') || closest(li, '#faq') || closest(li, '#rcr-faq');
+                                                                  if(!scope) return;
+                                                                        e.preventDefault(); e.stopPropagation();
+                                                                              scope.querySelectorAll('.faqs-service li.active').forEach(function(x){ if(x!==li) x.classList.remove('active'); });
+                                                                                    li.classList.toggle('active');
+                                                                                        }, true);
+                                                                                            document.addEventListener('keydown', function(e){
+                                                                                                  if(e.key !== 'Enter' && e.key !== ' ') return;
+                                                                                                        var h = closest(e.target, '.faqs-service h4');
+                                                                                                              if(!h) return;
+                                                                                                                    var li = closest(h, '.faqs-service li');
+                                                                                                                          if(!li) return;
+                                                                                                                                var scope = closest(li, '#skysure-faq') || closest(li, '#faq') || closest(li, '#rcr-faq');
+                                                                                                                                      if(!scope) return;
+                                                                                                                                            e.preventDefault(); e.stopPropagation();
+                                                                                                                                                  scope.querySelectorAll('.faqs-service li.active').forEach(function(x){ if(x!==li) x.classList.remove('active'); });
+                                                                                                                                                        li.classList.toggle('active');
+                                                                                                                                                            }, true);
+                                                                                                                                                              }
+                                                                                                                                                                if(document.readyState !== 'loading') initFAQ();
+                                                                                                                                                                  else document.addEventListener('DOMContentLoaded', initFAQ);
+                                                                                                                                                                  })();
+                                                                                                                                                                  </script>
+                                                                                                                                                                  <script>
+                                                                                                                                                                  (function(){
+                                                                                                                                                                    /* ===== Navbar toggle + smooth scroll to FAQ ===== */
+                                                                                                                                                                      function getHeaderHeight(){
+                                                                                                                                                                          var h = 0;
+                                                                                                                                                                              document.querySelectorAll('.navbar, header, .header, .navigation-wrap').forEach(function(el){
+                                                                                                                                                                                    if(el.offsetParent !== null) h = Math.max(h, el.offsetHeight || 0);
+                                                                                                                                                                                        });
+                                                                                                                                                                                            if(!h || h < 50) h = 70;
+                                                                                                                                                                                                if(window.matchMedia && window.matchMedia('(max-width: 991px)').matches) h = Math.max(h, 55);
+                                                                                                                                                                                                    return h;
+                                                                                                                                                                                                      }
+                                                                                                                                                                                                        function smoothScrollTo(target){
+                                                                                                                                                                                                            if(!target) return;
+                                                                                                                                                                                                                var top = target.getBoundingClientRect().top + window.pageYOffset - getHeaderHeight();
+                                                                                                                                                                                                                    window.scrollTo({top: Math.max(0, top), behavior: 'smooth'});
+                                                                                                                                                                                                                      }
+                                                                                                                                                                                                                        function setup(){
+                                                                                                                                                                                                                            var coll = document.querySelector('.navbar-collapse');
+                                                                                                                                                                                                                                document.addEventListener('click', function(e){
+                                                                                                                                                                                                                                      var a = e.target && e.target.closest ? e.target.closest('a[href="#faq"], a[href="#FAQ"]') : null;
+                                                                                                                                                                                                                                            if(!a) return;
+                                                                                                                                                                                                                                                  e.preventDefault();
+                                                                                                                                                                                                                                                        var faqEl = document.getElementById('faq');
+                                                                                                                                                                                                                                                              if(!faqEl) return;
+                                                                                                                                                                                                                                                                    if(coll && coll.classList.contains('in')){
+                                                                                                                                                                                                                                                                            coll.classList.remove('in');
+                                                                                                                                                                                                                                                                                    coll.classList.add('collapse');
+                                                                                                                                                                                                                                                                                            setTimeout(function(){ smoothScrollTo(faqEl); }, 50);
+                                                                                                                                                                                                                                                                                                  } else {
+                                                                                                                                                                                                                                                                                                          smoothScrollTo(faqEl);
+                                                                                                                                                                                                                                                                                                                }
+                                                                                                                                                                                                                                                                                                                    });
+                                                                                                                                                                                                                                                                                                                        if(location.hash && location.hash.toLowerCase() === '#faq'){
+                                                                                                                                                                                                                                                                                                                              var faqEl = document.getElementById('faq');
+                                                                                                                                                                                                                                                                                                                                    if(faqEl) setTimeout(function(){ smoothScrollTo(faqEl); }, 50);
+                                                                                                                                                                                                                                                                                                                                        }
+                                                                                                                                                                                                                                                                                                                                          }
+                                                                                                                                                                                                                                                                                                                                            if(document.readyState !== 'loading') setup();
+                                                                                                                                                                                                                                                                                                                                              else document.addEventListener('DOMContentLoaded', setup);
+                                                                                                                                                                                                                                                                                                                                              })();
+                                                                                                                                                                                                                                                                                                                                              </script>>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
